@@ -29,7 +29,7 @@ const useUserStore = defineStore({
         loginApi({
           username: username.trim(),
           password: password,
-          grant_type: 'password',
+          grant_type: 'authorization_captcha',
           verifyCode: verifyCode,
           verifyCodeKey: verifyCodeKey,
         })
