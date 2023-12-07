@@ -7,7 +7,7 @@ import {Menu, MenuForm, MenuQuery, Resource} from './types';
  */
 export function listRoutes() {
   return request({
-    url: '/mo-system/api/v1/menus/routes',
+    url: '/mo-admin/api/v1/menus/routes',
     method: 'get',
   });
 }
@@ -19,7 +19,7 @@ export function listRoutes() {
  */
 export function listMenus(queryParams: MenuQuery): AxiosPromise<Menu[]> {
   return request({
-    url: '/mo-system/api/v1/menus/list',
+    url: '/mo-admin/api/v1/menus/list',
     method: 'post',
     data: queryParams,
   });
@@ -30,7 +30,7 @@ export function listMenus(queryParams: MenuQuery): AxiosPromise<Menu[]> {
  */
 export function listMenuOptions(): AxiosPromise<OptionType[]> {
   return request({
-    url: '/mo-system/api/v1/menus/options',
+    url: '/mo-admin/api/v1/menus/options',
     method: 'get',
   });
 }
@@ -40,7 +40,7 @@ export function listMenuOptions(): AxiosPromise<OptionType[]> {
  */
 export function listResources(): AxiosPromise<Resource[]> {
   return request({
-    url: '/mo-system/api/v1/menus/resources',
+    url: '/mo-admin/api/v1/menus/resources',
     method: 'get',
   });
 }
@@ -51,7 +51,7 @@ export function listResources(): AxiosPromise<Resource[]> {
  */
 export function getMenuDetail(id: string): AxiosPromise<MenuForm> {
   return request({
-    url: '/mo-system/api/v1/menus/' + id,
+    url: '/mo-admin/api/v1/menus/' + id,
     method: 'get',
   });
 }
@@ -63,7 +63,7 @@ export function getMenuDetail(id: string): AxiosPromise<MenuForm> {
  */
 export function addMenu(data: MenuForm) {
   return request({
-    url: '/mo-system/api/v1/menus',
+    url: '/mo-admin/api/v1/menus',
     method: 'post',
     data: data,
   });
@@ -77,7 +77,7 @@ export function addMenu(data: MenuForm) {
  */
 export function updateMenu(id: string, data: MenuForm) {
   return request({
-    url: '/mo-system/api/v1/menus/' + id,
+    url: '/mo-admin/api/v1/menus/' + id,
     method: 'put',
     data: data,
   });
@@ -90,7 +90,7 @@ export function updateMenu(id: string, data: MenuForm) {
  */
 export function deleteMenu(id: number) {
   return request({
-    url: '/mo-system/api/v1/menus/' + id,
+    url: '/mo-admin/api/v1/menus/' + id,
     method: 'delete',
   });
 }

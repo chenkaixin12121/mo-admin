@@ -23,7 +23,7 @@ export function loginApi(data: LoginForm): AxiosPromise<LoginResult> {
  */
 export function logoutApi() {
   return request({
-    url: '/mo-system/api/v1/users/logout',
+    url: '/mo-admin/api/v1/users/logout',
     method: 'post',
   });
 }

@@ -11,7 +11,7 @@ export function listDictTypePages(
   queryParams: DictQuery
 ): AxiosPromise<DictPageResult> {
   return request({
-    url: '/mo-system/api/v1/dict/types/pages',
+    url: '/mo-admin/api/v1/dict/types/pages',
     method: 'post',
     data: queryParams,
   });
@@ -24,7 +24,7 @@ export function listDictTypePages(
  */
 export function getDictTypeForm(id: number): AxiosPromise<DictTypeForm> {
   return request({
-    url: '/mo-system/api/v1/dict/types/' + id,
+    url: '/mo-admin/api/v1/dict/types/' + id,
     method: 'get',
   });
 }
@@ -36,7 +36,7 @@ export function getDictTypeForm(id: number): AxiosPromise<DictTypeForm> {
  */
 export function addDictType(data: DictTypeForm) {
   return request({
-    url: '/mo-system/api/v1/dict/types',
+    url: '/mo-admin/api/v1/dict/types',
     method: 'post',
     data: data,
   });
@@ -50,7 +50,7 @@ export function addDictType(data: DictTypeForm) {
  */
 export function updateDictType(id: number, data: DictTypeForm) {
   return request({
-    url: '/mo-system/api/v1/dict/types/' + id,
+    url: '/mo-admin/api/v1/dict/types/' + id,
     method: 'put',
     data: data,
   });
@@ -61,7 +61,7 @@ export function updateDictType(id: number, data: DictTypeForm) {
  */
 export function deleteDictTypes(ids: string) {
   return request({
-    url: '/mo-system/api/v1/dict/types/' + ids,
+    url: '/mo-admin/api/v1/dict/types/' + ids,
     method: 'delete',
   });
 }
@@ -75,7 +75,7 @@ export function listDictItemsByTypeCode(
   typeCode: string
 ): AxiosPromise<OptionType[]> {
   return request({
-    url: '/mo-system/api/v1/dict/types/' + typeCode + '/items',
+    url: '/mo-admin/api/v1/dict/types/' + typeCode + '/items',
     method: 'get',
   });
 }
@@ -87,7 +87,7 @@ export function listDictItemPages(
   queryParams: DictItemQuery
 ): AxiosPromise<DictItemPageResult> {
   return request({
-    url: '/mo-system/api/v1/dict/items/pages',
+    url: '/mo-admin/api/v1/dict/items/pages',
     method: 'post',
     data: queryParams,
   });
@@ -100,7 +100,7 @@ export function listDictItemPages(
  */
 export function getDictItemData(id: number): AxiosPromise<DictItemForm> {
   return request({
-    url: '/mo-system/api/v1/dict/items/' + id,
+    url: '/mo-admin/api/v1/dict/items/' + id,
     method: 'get',
   });
 }
@@ -112,7 +112,7 @@ export function getDictItemData(id: number): AxiosPromise<DictItemForm> {
  */
 export function saveDictItem(data: DictItemForm) {
   return request({
-    url: '/mo-system/api/v1/dict/items',
+    url: '/mo-admin/api/v1/dict/items',
     method: 'post',
     data: data,
   });
@@ -126,7 +126,7 @@ export function saveDictItem(data: DictItemForm) {
  */
 export function updateDictItem(id: number, data: DictItemForm) {
   return request({
-    url: '/mo-system/api/v1/dict/items/' + id,
+    url: '/mo-admin/api/v1/dict/items/' + id,
     method: 'put',
     data: data,
   });
@@ -139,7 +139,7 @@ export function updateDictItem(id: number, data: DictItemForm) {
  */
 export function deleteDictItems(ids: string) {
   return request({
-    url: '/mo-system/api/v1/dict/items/' + ids,
+    url: '/mo-admin/api/v1/dict/items/' + ids,
     method: 'delete',
   });
 }

@@ -1,6 +1,6 @@
 # mo-admin
 
-> mo 管理后台，基于 vue-element-admin，技术栈：Vue3 + Vite3 + TypeScript + Element-Plus
+> mo 管理后台，基于 vue-element-admin。
 
 #### 项目启动
 

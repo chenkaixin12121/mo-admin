@@ -11,7 +11,7 @@ export function uploadFileApi(file: File): AxiosPromise<FileInfo> {
   const formData = new FormData();
   formData.append('file', file);
   return request({
-    url: '/mo-system/oss',
+    url: '/mo-admin/oss',
     method: 'post',
     data: formData,
     headers: {
@@ -29,7 +29,7 @@ export function deleteFileApi(filePath: string) {
   const formData = new FormData();
   formData.append('key', filePath);
   return request({
-    url: '/mo-system/oss',
+    url: '/mo-admin/oss',
     method: 'delete',
     data: formData
   });

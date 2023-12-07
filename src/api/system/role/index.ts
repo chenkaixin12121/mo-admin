@@ -11,7 +11,7 @@ export function listRolePages(
   queryParams?: RoleQuery
 ): AxiosPromise<RolePageResult> {
   return request({
-    url: '/mo-system/api/v1/roles/pages',
+    url: '/mo-admin/api/v1/roles/pages',
     method: 'post',
     data: queryParams,
   });
@@ -26,7 +26,7 @@ export function listRoleOptions(
   queryParams?: RoleQuery
 ): AxiosPromise<OptionType[]> {
   return request({
-    url: '/mo-system/api/v1/roles/options',
+    url: '/mo-admin/api/v1/roles/options',
     method: 'get',
     params: queryParams,
   });
@@ -39,7 +39,7 @@ export function listRoleOptions(
  */
 export function getRoleMenuIds(roleId: string): AxiosPromise<number[]> {
   return request({
-    url: '/mo-system/api/v1/roles/' + roleId + '/menuIds',
+    url: '/mo-admin/api/v1/roles/' + roleId + '/menuIds',
     method: 'get',
   });
 }
@@ -54,7 +54,7 @@ export function updateRoleMenus(
   data: number[]
 ): AxiosPromise<any> {
   return request({
-    url: '/mo-system/api/v1/roles/' + roleId + '/menus',
+    url: '/mo-admin/api/v1/roles/' + roleId + '/menus',
     method: 'put',
     data: data,
   });
@@ -67,7 +67,7 @@ export function updateRoleMenus(
  */
 export function getRoleFormDetail(id: number): AxiosPromise<RoleForm> {
   return request({
-    url: '/mo-system/api/v1/roles/' + id,
+    url: '/mo-admin/api/v1/roles/' + id,
     method: 'get',
   });
 }
@@ -79,7 +79,7 @@ export function getRoleFormDetail(id: number): AxiosPromise<RoleForm> {
  */
 export function addRole(data: RoleForm) {
   return request({
-    url: '/mo-system/api/v1/roles',
+    url: '/mo-admin/api/v1/roles',
     method: 'post',
     data: data,
   });
@@ -93,7 +93,7 @@ export function addRole(data: RoleForm) {
  */
 export function updateRole(id: number, data: RoleForm) {
   return request({
-    url: '/mo-system/api/v1/roles/' + id,
+    url: '/mo-admin/api/v1/roles/' + id,
     method: 'put',
     data: data,
   });
@@ -106,7 +106,7 @@ export function updateRole(id: number, data: RoleForm) {
  */
 export function deleteRoles(ids: string) {
   return request({
-    url: '/mo-system/api/v1/roles/' + ids,
+    url: '/mo-admin/api/v1/roles/' + ids,
     method: 'delete',
   });
 }
