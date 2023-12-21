@@ -200,8 +200,8 @@ function handleLogin() {
 // 获取验证码
 function handleCaptchaGenerate() {
   getCaptcha().then(({data}) => {
-    const {verifyCodeBase64, verifyCodeKey} = data;
-    verifyCodeImgUrl.value = verifyCodeBase64;
+    const {captchaImgBase64, verifyCodeKey} = data;
+    verifyCodeImgUrl.value = captchaImgBase64;
     loginForm.value.verifyCodeKey = verifyCodeKey;
   });
 }

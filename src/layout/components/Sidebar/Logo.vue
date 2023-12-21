@@ -35,7 +35,7 @@ const state = reactive({
 const {isCollapse} = toRefs(state);
 
 const title = ref('mo-admin');
-const logo = ref('https://file.ckx.ink/upload/2020/04/android-chrome-512x512.png');
+const logo = ref('https://blog.ckx.ink/upload/2020/04/android-chrome-512x512.png');
 </script>
 
 <style lang="scss" scoped>

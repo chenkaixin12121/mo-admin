@@ -2,7 +2,7 @@
  * 会员查询参数类型声明
  */
 export interface MemberQuery extends PageQuery {
-  nickName?: string;
+  keywords?: string;
 }
 
 /**

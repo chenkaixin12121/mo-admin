@@ -46,6 +46,7 @@ const state = reactive({
     code: [{required: true, message: '请输入角色编码', trigger: 'blur'}],
     dataScope: [{required: true, message: '请选择数据权限', trigger: 'blur'}],
     status: [{required: true, message: '请选择状态', trigger: 'blur'}],
+    sort: [{required: true, message: '请选择排序', trigger: 'blur'}],
   },
   menuDialogVisible: false,
   resourceOptions: [] as OptionType[],

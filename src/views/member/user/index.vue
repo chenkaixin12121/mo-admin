@@ -44,7 +44,7 @@ function resetQuery() {
   state.queryParams = {
     pageNum: 1,
     pageSize: 10,
-    nickName: '',
+    keywords: '',
   };
   handleQuery();
 }
@@ -66,7 +66,7 @@ onMounted(() => {
       <el-form ref="queryFormRef" :inline="true" :model="queryParams">
         <el-form-item>
           <el-input
-            v-model="queryParams.nickName"
+            v-model="queryParams.keywords"
             clearable
             placeholder="会员昵称"
             @keyup.enter="handleQuery"

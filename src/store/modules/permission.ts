@@ -9,7 +9,7 @@ export const Layout = () => import('@/layout/index.vue');
 
 const hasPermission = (roles: string[], route: RouteRecordRaw) => {
   if (route.meta && route.meta.roles) {
-    if (roles.includes('ROOT')) {
+    if (roles.includes('SUPER-ADMIN')) {
       return true;
     }
     return roles.some((role) => {

@@ -28,6 +28,6 @@ export interface LoginResult {
  * 验证码类型声明
  */
 export interface VerifyCode {
-  verifyCodeBase64: string;
+  captchaImgBase64: string;
   verifyCodeKey: string;
 }
