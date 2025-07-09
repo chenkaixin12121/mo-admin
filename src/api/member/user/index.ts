@@ -7,7 +7,7 @@ import {MemberPageResult, MemberQuery} from './types';
  *
  * @param queryParams
  */
-export function listMemeberPages(
+export function listMemberPages(
   queryParams: MemberQuery
 ): AxiosPromise<MemberPageResult> {
   return request({

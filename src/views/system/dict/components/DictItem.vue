@@ -183,15 +183,15 @@ onMounted(() => {
     <!-- 搜索表单 -->
     <el-form ref="queryFormRef" :inline="true" :model="queryParams">
       <el-form-item>
-        <el-button :icon="Plus" v-hasPerm="['sys:dict:item:save']" type="success" @click="handleAdd"
+        <el-button v-hasPerm="['sys:dict:item:save']" :icon="Plus" type="success" @click="handleAdd"
         >新增
         </el-button
         >
         <el-button
+          v-hasPerm="['sys:dict:item:delete']"
           :disabled="multiple"
           :icon="Delete"
           type="danger"
-          v-hasPerm="['sys:dict:item:delete']"
           @click="handleDelete"
         >删除
         </el-button
@@ -232,17 +232,17 @@ onMounted(() => {
       <el-table-column align="center" label="操作">
         <template #default="scope">
           <el-button
+            v-hasPerm="['sys:dict:item:update']"
             :icon="Edit"
             circle
-            v-hasPerm="['sys:dict:item:update']"
             plain
             type="primary"
             @click.stop="handleUpdate(scope.row)"
           />
           <el-button
+            v-hasPerm="['sys:dict:item:delete']"
             :icon="Delete"
             circle
-            v-hasPerm="['sys:dict:item:delete']"
             plain
             type="danger"
             @click.stop="handleDelete(scope.row)"

@@ -296,8 +296,8 @@ onMounted(() => {
         <el-table-column align="left" label="操作">
           <template #default="scope">
             <el-button
-              link
               v-hasPerm="['sys:role:resource']"
+              link
               type="success"
               @click.stop="showRoleMenuDialog(scope.row)"
             >
@@ -305,8 +305,8 @@ onMounted(() => {
             </el-button>
 
             <el-button
-              link
               v-hasPerm="['sys:role:update']"
+              link
               type="primary"
               @click.stop="handleUpdate(scope.row)"
             >

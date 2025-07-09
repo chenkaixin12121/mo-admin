@@ -102,7 +102,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
 
   .github-corner {
     position: absolute;
-    top: 0px;
+    top: 0;
     border: 0;
     right: 0;
     z-index: 99;

@@ -226,15 +226,15 @@ onMounted(() => {
     <el-card>
       <!--toolbar-->
       <template #header>
-        <el-button :icon="Plus" v-hasPerm="['sys:dept:save']" type="success" @click="handleAdd"
+        <el-button v-hasPerm="['sys:dept:save']" :icon="Plus" type="success" @click="handleAdd"
         >新增
         </el-button
         >
         <el-button
+          v-hasPerm="['sys:dept:delete']"
           :disabled="ids.length === 0"
           :icon="Delete"
           type="danger"
-          v-hasPerm="['sys:dept:delete']"
           @click="handleDelete"
         >删除
         </el-button>
@@ -265,12 +265,12 @@ onMounted(() => {
 
         <el-table-column align="center" label="操作" width="150">
           <template #default="scope">
-            <el-button link type="primary" v-hasPerm="['sys:dept:save']" @click.stop="handleAdd(scope.row)"
+            <el-button v-hasPerm="['sys:dept:save']" link type="primary" @click.stop="handleAdd(scope.row)"
             >新增
             </el-button>
             <el-button
-              link
               v-hasPerm="['sys:dept:update']"
+              link
               type="success"
               @click.stop="handleUpdate(scope.row)"
             >

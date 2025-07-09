@@ -109,7 +109,7 @@ defineExpose({
 <style lang="scss" scoped>
 .scroll-container {
   .el-scrollbar__bar {
-    bottom: 0px;
+    bottom: 0;
   }
 
   .el-scrollbar__wrap {

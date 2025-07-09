@@ -9,7 +9,7 @@ import {reactive, onMounted, toRefs} from 'vue';
 import {ElTable} from 'element-plus';
 import {Search, Refresh} from '@element-plus/icons-vue';
 
-import {listMemeberPages} from '@/api/member/user';
+import {listMemberPages} from '@/api/member/user';
 import {Member, MemberQuery} from '@/api/member/user/types';
 
 const state = reactive({
@@ -33,7 +33,7 @@ const {loading, queryParams, memberList, total} = toRefs(state);
 
 function handleQuery() {
   state.loading = true;
-  listMemeberPages(state.queryParams).then(({data}) => {
+  listMemberPages(state.queryParams).then(({data}) => {
     state.memberList = data.list;
     state.total = data.total;
     state.loading = false;

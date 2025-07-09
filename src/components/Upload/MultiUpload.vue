@@ -46,7 +46,7 @@ const props = defineProps({
    * 文件路径集合
    */
   modelValue: {
-    type: Array < string >,
+    type: Array <string>,
     default: [] as Array<string>,
   },
   /**

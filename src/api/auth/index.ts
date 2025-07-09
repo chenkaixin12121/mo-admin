@@ -3,9 +3,7 @@ import {AxiosPromise} from 'axios';
 import {LoginForm, LoginResult, VerifyCode} from './types';
 
 /**
- *
- * @param data {LoginForm}
- * @returns
+ * 登录
  */
 export function loginApi(data: LoginForm): AxiosPromise<LoginResult> {
   return request({

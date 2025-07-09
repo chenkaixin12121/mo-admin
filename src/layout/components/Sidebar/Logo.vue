@@ -7,11 +7,11 @@
         class="sidebar-logo-link"
         to="/"
       >
-        <img v-if="logo" :src="logo" class="sidebar-logo"/>
+        <img v-if="logo" :src="logo" class="sidebar-logo" alt=""/>
         <h1 v-else class="sidebar-title">{{ title }}</h1>
       </router-link>
       <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img v-if="logo" :src="logo" class="sidebar-logo"/>
+        <img v-if="logo" :src="logo" class="sidebar-logo" alt=""/>
         <h1 class="sidebar-title">{{ title }}</h1>
       </router-link>
     </transition>
@@ -35,7 +35,7 @@ const state = reactive({
 const {isCollapse} = toRefs(state);
 
 const title = ref('mo-admin');
-const logo = ref('https://blog.ckx.ink/upload/2020/04/android-chrome-512x512.png');
+const logo = ref(new URL(`../../../assets/logo.png`, import.meta.url).href);
 </script>
 
 <style lang="scss" scoped>
@@ -82,7 +82,7 @@ const logo = ref('https://blog.ckx.ink/upload/2020/04/android-chrome-512x512.png
 
   &.collapse {
     .sidebar-logo {
-      margin-right: 0px;
+      margin-right: 0;
     }
   }
 }
