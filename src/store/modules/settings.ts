@@ -3,7 +3,8 @@ import {SettingState} from './types';
 import defaultSettings from '../../settings';
 import {localStorage} from '@/utils/storage';
 
-const {showSettings, tagsView, fixedHeader, sidebarLogo} = defaultSettings;
+const {showSettings, tagsView, fixedHeader, sidebarLogo, darkMode} =
+  defaultSettings;
 const el = document.documentElement;
 
 export const useSettingStore = defineStore({
@@ -19,6 +20,10 @@ export const useSettingStore = defineStore({
         : tagsView,
     fixedHeader: fixedHeader,
     sidebarLogo: sidebarLogo,
+    darkMode:
+      localStorage.get('darkMode') != null
+        ? localStorage.get('darkMode')
+        : darkMode,
   }),
   actions: {
     async changeSetting(payload: { key: string; value: any }) {
@@ -39,6 +44,10 @@ export const useSettingStore = defineStore({
           break;
         case 'sidebarLogo':
           this.sidebarLogo = value;
+          break;
+        case 'darkMode':
+          this.darkMode = value;
+          localStorage.set('darkMode', value);
           break;
         default:
           break;

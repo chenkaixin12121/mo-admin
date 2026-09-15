@@ -24,7 +24,10 @@
         trigger="click"
       >
         <div class="avatar-wrapper">
-          <img :src="avatar + '?imageView2/1/w/80/h/80'" class="user-avatar"/>
+          <img v-if="avatar" :src="avatar" class="user-avatar"/>
+          <el-icon v-else class="user-avatar default-avatar">
+            <UserFilled/>
+          </el-icon>
           <CaretBottom style="width: 0.6em; height: 0.6em; margin-left: 5px"/>
         </div>
 
@@ -56,7 +59,7 @@ import Screenfull from '@/components/Screenfull/index.vue';
 import SizeSelect from '@/components/SizeSelect/index.vue';
 
 // 图标依赖
-import {CaretBottom} from '@element-plus/icons-vue';
+import {CaretBottom, UserFilled} from '@element-plus/icons-vue';
 
 const {app, user, tagsView} = useStore();
 
@@ -100,7 +103,7 @@ ul {
   height: 50px;
   overflow: hidden;
   position: relative;
-  background: #fff;
+  background: var(--el-bg-color);
   box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
@@ -159,6 +162,15 @@ ul {
           width: 40px;
           height: 40px;
           border-radius: 10px;
+        }
+
+        .default-avatar {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 20px;
+          color: #fff;
+          background: var(--el-color-primary);
         }
 
         .el-icon-caret-bottom {

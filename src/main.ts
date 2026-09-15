@@ -6,6 +6,8 @@ import {createPinia} from 'pinia';
 
 import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
+// Element Plus 暗色主题 CSS 变量
+import 'element-plus/theme-chalk/dark/css-vars.css';
 import Pagination from '@/components/Pagination/index.vue';
 import '@/permission';
 // 根据字典编码获取字典列表全局方法

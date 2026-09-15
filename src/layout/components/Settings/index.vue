@@ -22,6 +22,11 @@
       <span>侧边栏 Logo</span>
       <el-switch v-model="sidebarLogo" class="drawer-switch"/>
     </div>
+
+    <div class="drawer-item">
+      <span>暗色模式</span>
+      <el-switch v-model="darkMode" class="drawer-switch"/>
+    </div>
   </div>
 </template>
 
@@ -38,9 +43,10 @@ const state = reactive({
   fixedHeader: setting.fixedHeader,
   tagsView: setting.tagsView,
   sidebarLogo: setting.sidebarLogo,
+  darkMode: setting.darkMode,
 });
 
-const {fixedHeader, tagsView, sidebarLogo} = toRefs(state);
+const {fixedHeader, tagsView, sidebarLogo, darkMode} = toRefs(state);
 
 function themeChange(val: any) {
   setting.changeSetting({key: 'theme', value: val});
@@ -64,6 +70,13 @@ watch(
   () => state.sidebarLogo,
   (value) => {
     setting.changeSetting({key: 'sidebarLogo', value: value});
+  }
+);
+
+watch(
+  () => state.darkMode,
+  (value) => {
+    setting.changeSetting({key: 'darkMode', value: value});
   }
 );
 </script>

@@ -12,7 +12,7 @@
         :data-path="tag.path"
         :to="{ path: tag.path, query: tag.query }"
         class="tags-view__item"
-        @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
+        @click.middle="handleMiddleClick(tag)"
         @contextmenu.prevent="openMenu(tag, $event)"
       >
         {{ generateTitle(tag.meta.title) }}
@@ -219,6 +219,12 @@ function toLastView(visitedViews: TagView[], view?: any) {
   }
 }
 
+function handleMiddleClick(tag: TagView) {
+  if (!isAffix(tag)) {
+    closeSelectedTag(tag);
+  }
+}
+
 function closeSelectedTag(view: TagView) {
   tagsView.delView(view).then((res: any) => {
     if (isActive(view)) {
@@ -295,8 +301,8 @@ onMounted(() => {
 .tags-view__container {
   height: 34px;
   width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
+  background: var(--el-bg-color);
+  border-bottom: 1px solid var(--el-border-color-light);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
 
   .tags-view__wrapper {
@@ -306,9 +312,9 @@ onMounted(() => {
       cursor: pointer;
       height: 26px;
       line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
+      border: 1px solid var(--el-border-color-light);
+      color: var(--el-text-color-regular);
+      background: var(--el-bg-color);
       padding: 0 8px;
       font-size: 12px;
       margin-left: 5px;
@@ -357,7 +363,7 @@ onMounted(() => {
 
   .tags-view__menu {
     margin: 0;
-    background: #fff;
+    background: var(--el-bg-color-overlay);
     z-index: 3000;
     position: absolute;
     list-style-type: none;

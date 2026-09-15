@@ -97,7 +97,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
 <style lang="scss" scoped>
 .dashboard-container {
   padding: 24px;
-  background-color: rgb(240, 242, 245);
+  background-color: var(--el-bg-color-page);
   position: relative;
 
   .github-corner {
@@ -147,8 +147,8 @@ import RadarChart from './components/Chart/RadarChart.vue';
     font-size: 12px;
     position: relative;
     overflow: hidden;
-    color: #666;
-    background: #fff;
+    color: var(--el-text-color-regular);
+    background: var(--el-bg-color);
     box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.05);
 
@@ -229,7 +229,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
 
       .card-panel-text {
         line-height: 18px;
-        color: rgba(0, 0, 0, 0.45);
+        color: var(--el-text-color-secondary);
         font-size: 16px;
         margin-bottom: 12px;
       }
@@ -242,7 +242,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
   }
 
   .chart-container {
-    background: #ffffff;
+    background: var(--el-bg-color);
   }
 }
 </style>
