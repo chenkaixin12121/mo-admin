@@ -14,11 +14,6 @@ import {useRouter} from 'vue-router';
 
 import useStore from '@/store';
 
-const {app} = useStore();
-
-const sidebar = computed(() => app.sidebar);
-const device = computed(() => app.device);
-
 export default defineComponent({
   props: {
     to: {
@@ -28,8 +23,12 @@ export default defineComponent({
   },
   setup(props) {
     const router = useRouter();
+    const {app} = useStore();
+    const sidebar = computed(() => app.sidebar);
+    const device = computed(() => app.device);
+
     const push = () => {
-      if (device.value === 'mobile' && sidebar.value.opened == true) {
+      if (device.value === 'mobile' && sidebar.value.opened) {
         app.closeSideBar(false);
       }
       router.push(props.to).catch((err) => {
