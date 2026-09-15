@@ -139,7 +139,7 @@ function handleBeforeUpload(file: UploadRawFile) {
  * 图片预览
  */
 const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-  dialogImageUrl.value = uploadFile.url!;
+  dialogImageUrl.value = uploadFile.url || '';
   dialogVisible.value = true;
 };
 </script>
