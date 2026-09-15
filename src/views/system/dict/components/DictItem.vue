@@ -33,15 +33,6 @@ const props = defineProps({
   },
 });
 
-watch(
-  () => props.typeCode,
-  (value) => {
-    state.queryParams.typeCode = value;
-    state.formData.typeCode = value;
-    handleQuery();
-  }
-);
-
 const queryFormRef = ref(ElForm);
 const dataFormRef = ref(ElForm);
 
@@ -70,6 +61,16 @@ const state = reactive({
   localDictCode: props.typeCode,
   localDictName: props.typeName,
 });
+
+// 监听字典类型切换，同步查询参数并重新加载字典项
+watch(
+  () => props.typeCode,
+  (value) => {
+    state.queryParams.typeCode = value;
+    state.formData.typeCode = value;
+    handleQuery();
+  }
+);
 
 const {
   loading,
@@ -114,6 +115,18 @@ function handleAdd() {
     ElMessage.warning('请选择字典类型后添加数据项');
     return;
   }
+  // 重置表单，避免残留上次编辑的数据（保留当前字典类型）
+  state.formData = {
+    id: undefined,
+    typeCode: state.formData.typeCode,
+    typeName: state.formData.typeName,
+    name: '',
+    code: '',
+    value: '',
+    status: 1,
+    sort: 1,
+    remark: '',
+  };
   state.dialog = {
     title: '添加字典数据项',
     visible: true,
@@ -125,7 +138,7 @@ function handleUpdate(row: any) {
     title: '修改字典数据项',
     visible: true,
   };
-  const id = row.id || state.ids;
+  const id = row.id;
   getDictItemData(id).then(({data}) => {
     state.formData = data;
   });

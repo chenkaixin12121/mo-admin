@@ -200,6 +200,14 @@ function handleSelectionChange(selection: any) {
 }
 
 function handleAdd() {
+  // 重置表单，避免残留上次编辑的数据
+  state.formData = {
+    id: undefined,
+    name: '',
+    code: '',
+    status: 1,
+    remark: '',
+  };
   state.dialog = {
     title: '添加字典',
     visible: true,
@@ -211,7 +219,7 @@ function handleUpdate(row: any) {
     title: '修改字典',
     visible: true,
   };
-  const id = row.id || state.ids;
+  const id = row.id;
   getDictTypeForm(id).then(({data}) => {
     state.formData = data;
   });
