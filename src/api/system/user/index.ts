@@ -76,7 +76,7 @@ export function updateUserStatus(id: number, status: number) {
   return request({
     url: '/mo-admin/api/v1/users/' + id + '/status',
     method: 'patch',
-    params: {status: status},
+    data: {status: status},
   });
 }
 
@@ -90,7 +90,7 @@ export function updateUserPassword(id: number, password: string) {
   return request({
     url: '/mo-admin/api/v1/users/' + id + '/password',
     method: 'patch',
-    params: {password: password},
+    data: {password: password},
   });
 }
 

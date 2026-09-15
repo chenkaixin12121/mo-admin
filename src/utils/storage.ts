@@ -9,7 +9,15 @@ export const localStorage = {
   // 获取永久缓存
   get(key: string) {
     const json: any = window.localStorage.getItem(key);
-    return JSON.parse(json);
+    if (json === null) {
+      return null;
+    }
+    try {
+      return JSON.parse(json);
+    } catch {
+      // 非 JSON 字符串(如被其他脚本直接写入)时原样返回，避免启动崩溃
+      return json;
+    }
   },
   // 移除永久缓存
   remove(key: string) {
@@ -32,7 +40,15 @@ export const sessionStorage = {
   // 获取临时缓存
   get(key: string) {
     const json: any = window.sessionStorage.getItem(key);
-    return JSON.parse(json);
+    if (json === null) {
+      return null;
+    }
+    try {
+      return JSON.parse(json);
+    } catch {
+      // 非 JSON 字符串(如被其他脚本直接写入)时原样返回，避免启动崩溃
+      return json;
+    }
   },
   // 移除临时缓存
   remove(key: string) {

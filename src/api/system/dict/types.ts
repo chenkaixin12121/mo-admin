@@ -6,6 +6,10 @@ export interface DictQuery extends PageQuery {
    * 字典名称
    */
   name?: string;
+  /**
+   * 关键字
+   */
+  keywords?: string;
 }
 
 /**
@@ -47,6 +51,10 @@ export interface DictItemQuery extends PageQuery {
    * 字典类型编码
    */
   typeCode?: string;
+  /**
+   * 关键字
+   */
+  keywords?: string;
 }
 
 /**

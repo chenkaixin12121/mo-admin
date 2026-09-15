@@ -58,7 +58,7 @@
       </el-tooltip>
 
       <!-- 验证码 -->
-      <el-form-item prop="code">
+      <el-form-item prop="verifyCode">
         <span class="svg-container">
           <svg-icon icon-class="valid_code"/>
         </span>
@@ -142,7 +142,7 @@ const state = reactive({
 });
 
 function validatePassword(rule: any, value: any, callback: any) {
-  if (value.length < 6) {
+  if (!value || value.length < 6) {
     callback(new Error('The password can not be less than 6 digits'));
   } else {
     callback();
@@ -198,11 +198,15 @@ function handleLogin() {
 
 // 获取验证码
 function handleCaptchaGenerate() {
-  getCaptcha().then(({data}) => {
-    const {captchaImgBase64, verifyCodeKey} = data;
-    verifyCodeImgUrl.value = captchaImgBase64;
-    loginForm.value.verifyCodeKey = verifyCodeKey;
-  });
+  getCaptcha()
+    .then(({data}) => {
+      const {captchaImgBase64, verifyCodeKey} = data;
+      verifyCodeImgUrl.value = captchaImgBase64;
+      loginForm.value.verifyCodeKey = verifyCodeKey;
+    })
+    .catch(() => {
+      // 验证码加载失败，静默处理，点击验证码图片可重新加载
+    });
 }
 
 watch(

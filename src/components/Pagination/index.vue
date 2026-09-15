@@ -74,7 +74,7 @@ const pageSize = computed<number | undefined>({
 });
 
 function handleSizeChange(val: number) {
-  emit('pagination', {page: currentPage, limit: val});
+  emit('pagination', {page: currentPage.value, limit: val});
   if (props.autoScroll) {
     scrollTo(0, 800);
   }

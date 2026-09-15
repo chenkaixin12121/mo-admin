@@ -18,7 +18,8 @@ const hasPermission = (roles: string[], route: RouteRecordRaw) => {
       }
     });
   }
-  return false;
+  // 未配置 meta.roles 的路由视为所有人可访问，避免父级目录连同子菜单被过滤
+  return true;
 };
 
 export const filterAsyncRoutes = (
@@ -29,7 +30,7 @@ export const filterAsyncRoutes = (
   routes.forEach((route) => {
     const tmp = {...route} as any;
     if (hasPermission(roles, tmp)) {
-      if (tmp.component == 'Layout') {
+      if (tmp.component === 'Layout') {
         tmp.component = Layout;
       } else {
         const component = modules[`../../views/${tmp.component}.vue`] as any;

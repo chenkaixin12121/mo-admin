@@ -268,7 +268,7 @@ async function handleUpdate(row: { [key: string]: any }) {
     visible: true,
   };
 
-  const userId = row.id || state.ids;
+  const userId = row.id;
   await getDeptOptions();
   await getRoleOptions();
   getUserForm(userId).then(({data}) => {
@@ -351,6 +351,33 @@ function getGenderOptions() {
 }
 
 /**
+ * 从 Content-Disposition 响应头解析下载文件名
+ */
+function resolveFilename(disposition: string | undefined): string {
+  if (!disposition) {
+    return 'download';
+  }
+  // 优先解析 RFC 5987 的 filename*=UTF-8''xxx
+  const starMatch = disposition.match(/filename\*=UTF-8''([^;]+)/i);
+  if (starMatch) {
+    return safeDecode(starMatch[1]);
+  }
+  const match = disposition.match(/filename="?([^";]+)"?/i);
+  if (match) {
+    return safeDecode(match[1]);
+  }
+  return 'download';
+}
+
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+/**
  * 下载导入模板
  */
 function handleDownloadTemplate() {
@@ -361,9 +388,7 @@ function handleDownloadTemplate() {
     const a = document.createElement('a');
     const href = window.URL.createObjectURL(blob); // 下载链接
     a.href = href;
-    a.download = decodeURI(
-      response.headers['content-disposition'].split(';')[1].split('=')[1]
-    ); // 获取后台设置的文件名称
+    a.download = resolveFilename(response.headers['content-disposition']);
     document.body.appendChild(a);
     a.click(); // 点击下载
     document.body.removeChild(a); // 下载完成移除元素
@@ -438,9 +463,7 @@ function handleExport() {
     const a = document.createElement('a');
     const href = window.URL.createObjectURL(blob); // 下载的链接
     a.href = href;
-    a.download = decodeURI(
-      response.headers['content-disposition'].split(';')[1].split('=')[1]
-    ); // 获取后台设置的文件名称
+    a.download = resolveFilename(response.headers['content-disposition']);
     document.body.appendChild(a);
     a.click(); // 点击导出
     document.body.removeChild(a); // 下载完成移除元素
