@@ -181,11 +181,14 @@ const {total, dialog, loading, dictList, formData, rules, queryParams} =
 function handleQuery() {
   emit('dictClick', null);
   state.loading = true;
-  listDictTypePages(state.queryParams).then(({data}) => {
-    state.dictList = data.list;
-    state.total = data.total;
-    state.loading = false;
-  });
+  listDictTypePages(state.queryParams)
+    .then(({data}) => {
+      state.dictList = data.list;
+      state.total = data.total;
+    })
+    .finally(() => {
+      state.loading = false;
+    });
 }
 
 function resetQuery() {
@@ -229,17 +232,21 @@ function submitForm() {
   dataFormRef.value.validate((isValid: boolean) => {
     if (isValid) {
       if (state.formData.id) {
-        updateDictType(state.formData.id, state.formData).then(() => {
-          ElMessage.success('修改成功');
-          cancel();
-          handleQuery();
-        });
+        updateDictType(state.formData.id, state.formData)
+          .then(() => {
+            ElMessage.success('修改成功');
+            cancel();
+            handleQuery();
+          })
+          .catch(() => {});
       } else {
-        addDictType(state.formData).then(() => {
-          ElMessage.success('新增成功');
-          cancel();
-          handleQuery();
-        });
+        addDictType(state.formData)
+          .then(() => {
+            ElMessage.success('新增成功');
+            cancel();
+            handleQuery();
+          })
+          .catch(() => {});
       }
     }
   });
@@ -259,10 +266,12 @@ function handleDelete(row: any) {
     type: 'warning',
   })
     .then(() => {
-      deleteDictTypes(ids).then(() => {
-        ElMessage.success('删除成功');
-        handleQuery();
-      });
+      deleteDictTypes(ids)
+        .then(() => {
+          ElMessage.success('删除成功');
+          handleQuery();
+        })
+        .catch(() => {});
     })
     .catch(() => ElMessage.info('已取消删除'));
 }

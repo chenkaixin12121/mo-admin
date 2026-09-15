@@ -85,7 +85,7 @@
           align="center"
           label="创建时间"
           prop="createTime"
-          width="200"
+          width="180"
         >
         </el-table-column>
 
@@ -93,7 +93,7 @@
           align="center"
           label="修改时间"
           prop="updateTime"
-          width="200"
+          width="180"
         >
         </el-table-column>
 
@@ -229,7 +229,6 @@
                 v-model="formData.icon"
                 placeholder="点击选择图标"
                 readonly
-                @click="iconSelectVisible = true"
               >
                 <template #prefix>
                   <svg-icon :icon-class="formData.icon"/>
@@ -304,11 +303,6 @@
       sort: 1,
       component: undefined,
     } as MenuForm,
-    permUrl: {
-      requestMethod: '',
-      serviceName: '',
-      requestPath: '',
-    },
     rules: {
       parentId: [{required: true, message: '请选择顶级菜单', trigger: 'blur'}],
       name: [{required: true, message: '请输入菜单名称', trigger: 'blur'}],
@@ -320,14 +314,10 @@
     },
     menuOptions: [] as OptionType[],
     currentRow: undefined,
-    // Icon选择器显示状态
-    iconSelectVisible: false,
     cacheData: {
       menuType: 1,
       menuPath: '',
     },
-    microServiceOptions: [] as OptionType[],
-    requestMethodOptions: [] as OptionType[],
   });
 
   const {
@@ -338,7 +328,6 @@
     formData,
     rules,
     menuOptions,
-    iconSelectVisible,
     cacheData,
   } = toRefs(state);
 
@@ -349,16 +338,13 @@
     // 重置父组件
     emit('menuClick', null);
     state.loading = true;
-    listMenus(state.queryParams).then(({data}) => {
-      state.menuList = data;
-      state.loading = false;
-    });
-  }
-
-  /**
-   * 加载字典数据
-   */
-  function loadDictOptions() {
+    listMenus(state.queryParams)
+      .then(({data}) => {
+        state.menuList = data;
+      })
+      .finally(() => {
+        state.loading = false;
+      });
   }
 
   /**
@@ -391,7 +377,6 @@
    */
   async function handleAdd(row: any) {
     await loadMenuData();
-    loadDictOptions();
     dialog.value = {
       title: '添加菜单',
       visible: true,
@@ -434,7 +419,6 @@
       visible: true,
     };
     const id = row.id as string;
-    loadDictOptions();
     getMenuDetail(id).then(({data}) => {
       state.formData = data;
       cacheData.value.menuType = data.type;
@@ -460,17 +444,21 @@
     dataFormRef.value.validate((isValid: boolean) => {
       if (isValid) {
         if (state.formData.id) {
-          updateMenu(state.formData.id, state.formData).then(() => {
-            ElMessage.success('修改成功');
-            cancel();
-            handleQuery();
-          });
+          updateMenu(state.formData.id, state.formData)
+            .then(() => {
+              ElMessage.success('修改成功');
+              cancel();
+              handleQuery();
+            })
+            .catch(() => {});
         } else {
-          addMenu(state.formData).then(() => {
-            ElMessage.success('新增成功');
-            cancel();
-            handleQuery();
-          });
+          addMenu(state.formData)
+            .then(() => {
+              ElMessage.success('新增成功');
+              cancel();
+              handleQuery();
+            })
+            .catch(() => {});
         }
       }
     });
@@ -488,10 +476,12 @@
       type: 'warning',
     })
       .then(() => {
-        deleteMenu(row.id).then(() => {
-          ElMessage.success('删除成功');
-          handleQuery();
-        });
+        deleteMenu(row.id)
+          .then(() => {
+            ElMessage.success('删除成功');
+            handleQuery();
+          })
+          .catch(() => {});
       })
       .catch(() => ElMessage.info('已取消删除'));
   }
@@ -509,7 +499,6 @@
    */
   function selected(name: string) {
     state.formData.icon = name;
-    state.iconSelectVisible = false;
   }
 
   onMounted(() => {

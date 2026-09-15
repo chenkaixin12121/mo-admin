@@ -61,10 +61,13 @@ const {
  */
 function handleQuery() {
   loading.value = true;
-  listDepartments(state.queryParams).then(({data}) => {
-    dataList.value = data;
-    loading.value = false;
-  });
+  listDepartments(state.queryParams)
+    .then(({data}) => {
+      dataList.value = data;
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 }
 
 /**
@@ -136,17 +139,21 @@ function submitForm() {
   dataFormRef.value.validate((valid: any) => {
     if (valid) {
       if (state.formData.id) {
-        updateDept(state.formData.id, state.formData).then(() => {
-          ElMessage.success('修改成功');
-          closeDialog();
-          handleQuery();
-        });
+        updateDept(state.formData.id, state.formData)
+          .then(() => {
+            ElMessage.success('修改成功');
+            closeDialog();
+            handleQuery();
+          })
+          .catch(() => {});
       } else {
-        addDept(state.formData).then(() => {
-          ElMessage.success('新增成功');
-          closeDialog();
-          handleQuery();
-        });
+        addDept(state.formData)
+          .then(() => {
+            ElMessage.success('新增成功');
+            closeDialog();
+            handleQuery();
+          })
+          .catch(() => {});
       }
     }
   });
@@ -173,9 +180,7 @@ function handleDelete(row: any) {
           handleQuery();
           ElMessage.success('删除成功');
         })
-        .catch(() => {
-          console.log(`删除失败`);
-        });
+        .catch(() => {});
     })
     .catch(() => ElMessage.info('已取消删除'));
 }
@@ -266,8 +271,8 @@ onMounted(() => {
 
         <el-table-column label="排序" prop="sort" width="200"/>
 
-        <el-table-column label="创建时间" prop="createTime" width="250"/>
-        <el-table-column label="修改时间" prop="updateTime" width="250"/>
+        <el-table-column align="center" label="创建时间" prop="createTime" width="180"/>
+        <el-table-column align="center" label="修改时间" prop="updateTime" width="180"/>
 
         <el-table-column align="center" label="操作" width="150">
           <template #default="scope">

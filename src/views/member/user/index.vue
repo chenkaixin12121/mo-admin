@@ -7,7 +7,7 @@ export default {
 <script lang="ts" setup>
 import {reactive, onMounted, toRefs} from 'vue';
 import {ElTable} from 'element-plus';
-import {Search, Refresh} from '@element-plus/icons-vue';
+import {Search, Refresh, UserFilled} from '@element-plus/icons-vue';
 
 import {listMemberPages} from '@/api/member/user';
 import {Member, MemberQuery} from '@/api/member/user/types';
@@ -33,11 +33,14 @@ const {loading, queryParams, memberList, total} = toRefs(state);
 
 function handleQuery() {
   state.loading = true;
-  listMemberPages(state.queryParams).then(({data}) => {
-    state.memberList = data.list;
-    state.total = data.total;
-    state.loading = false;
-  });
+  listMemberPages(state.queryParams)
+    .then(({data}) => {
+      state.memberList = data.list;
+      state.total = data.total;
+    })
+    .finally(() => {
+      state.loading = false;
+    });
 }
 
 function resetQuery() {
@@ -95,19 +98,27 @@ onMounted(() => {
         <el-table-column label="性别" width="80">
           <template #default="scope">
             <span v-if="scope.row.gender === 0">未知</span>
-            <span v-if="scope.row.gender === 1">男</span>
-            <span v-if="scope.row.gender === 2">女</span>
+            <span v-else-if="scope.row.gender === 1">男</span>
+            <span v-else-if="scope.row.gender === 2">女</span>
           </template>
         </el-table-column>
         <el-table-column label="头像" width="100">
           <template #default="scope">
             <el-popover :width="400" placement="right" trigger="hover">
-              <img :src="scope.row.avatarUrl" height="400" width="400"/>
+              <img
+                v-if="scope.row.avatarUrl"
+                :src="scope.row.avatarUrl"
+                height="400"
+                width="400"
+              />
+              <span v-else class="avatar-placeholder">暂无头像</span>
               <template #reference>
                 <img
+                  v-if="scope.row.avatarUrl"
                   :src="scope.row.avatarUrl"
                   style="max-height: 60px; max-width: 60px"
                 />
+                <el-icon v-else :size="24"><UserFilled/></el-icon>
               </template>
             </el-popover>
           </template>

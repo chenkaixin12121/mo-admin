@@ -200,11 +200,14 @@ function handleStatusChange(row: { [key: string]: any }) {
  */
 function handleQuery() {
   state.loading = true;
-  listUserPages(state.queryParams).then(({data}) => {
-    state.userList = data.list;
-    state.total = data.total;
-    state.loading = false;
-  });
+  listUserPages(state.queryParams)
+    .then(({data}) => {
+      state.userList = data.list;
+      state.total = data.total;
+    })
+    .finally(() => {
+      state.loading = false;
+    });
 }
 
 /**
@@ -239,9 +242,11 @@ function resetPassword(row: { [key: string]: any }) {
         ElMessage.warning('请输入新密码');
         return false;
       }
-      updateUserPassword(row.id, value).then(() => {
-        ElMessage.success('密码重置成功，新密码是：' + value);
-      });
+      updateUserPassword(row.id, value)
+        .then(() => {
+          ElMessage.success('密码重置成功');
+        })
+        .catch(() => {});
     })
     .catch(() => {
     });
@@ -298,17 +303,21 @@ function submitForm() {
     if (valid) {
       const userId = state.formData.id;
       if (userId) {
-        updateUser(userId, state.formData).then(() => {
-          ElMessage.success('修改用户成功');
-          closeDialog();
-          handleQuery();
-        });
+        updateUser(userId, state.formData)
+          .then(() => {
+            ElMessage.success('修改用户成功');
+            closeDialog();
+            handleQuery();
+          })
+          .catch(() => {});
       } else {
-        addUser(state.formData).then(() => {
-          ElMessage.success('新增用户成功');
-          closeDialog();
-          handleQuery();
-        });
+        addUser(state.formData)
+          .then(() => {
+            ElMessage.success('新增用户成功');
+            closeDialog();
+            handleQuery();
+          })
+          .catch(() => {});
       }
     }
   });
@@ -329,10 +338,12 @@ function handleDelete(row: { [key: string]: any }) {
     }
   )
     .then(function () {
-      deleteUsers(userIds).then(() => {
-        ElMessage.success('删除成功');
-        handleQuery();
-      });
+      deleteUsers(userIds)
+        .then(() => {
+          ElMessage.success('删除成功');
+          handleQuery();
+        })
+        .catch(() => {});
     })
     .catch(() => ElMessage.info('已取消删除'));
 }
@@ -407,7 +418,7 @@ function handleDownloadTemplate() {
     a.click(); // 点击下载
     document.body.removeChild(a); // 下载完成移除元素
     window.URL.revokeObjectURL(href); // 释放掉blob对象
-  });
+  }).catch(() => {});
 }
 
 /**
@@ -447,11 +458,13 @@ function submitImportForm() {
 
       const deptId = state.importFormData.deptId;
       const roleIds = state.importFormData.roleIds.join(',');
-      importUser(deptId, roleIds, state.excelFile).then((response) => {
-        ElMessage.success(response.data);
-        closeImportDialog();
-        handleQuery();
-      });
+      importUser(deptId, roleIds, state.excelFile)
+        .then((response) => {
+          ElMessage.success(response.data);
+          closeImportDialog();
+          handleQuery();
+        })
+        .catch(() => {});
     }
   });
 }
@@ -482,7 +495,7 @@ function handleExport() {
     a.click(); // 点击导出
     document.body.removeChild(a); // 下载完成移除元素
     window.URL.revokeObjectURL(href); // 释放掉blob对象
-  });
+  }).catch(() => {});
 }
 
 onMounted(() => {
@@ -639,8 +652,8 @@ onMounted(() => {
               width="100">
               <template #default="scope">
                 <span v-if="scope.row.gender === 0">未知</span>
-                <span v-if="scope.row.gender === 1">男</span>
-                <span v-if="scope.row.gender === 2">女</span>
+                <span v-else-if="scope.row.gender === 1">男</span>
+                <span v-else-if="scope.row.gender === 2">女</span>
               </template>
             </el-table-column>
 

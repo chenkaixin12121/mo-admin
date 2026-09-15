@@ -29,7 +29,7 @@
 
       <el-tooltip
         :disabled="capslockTooltipDisabled"
-        content="Caps lock is On"
+        content="大写锁定已开启"
         placement="right"
       >
         <el-form-item prop="password">
@@ -124,12 +124,19 @@ const state = reactive({
   loginForm: {
     username: '',
     password: '',
+    verifyCode: '',
   } as LoginForm,
   loginRules: {
-    username: [{required: true, trigger: 'blur'}],
+    username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
     password: [
-      {required: true, trigger: 'blur', validator: validatePassword},
+      {
+        required: true,
+        message: '请输入密码',
+        trigger: 'blur',
+        validator: validatePassword,
+      },
     ],
+    verifyCode: [{required: true, message: '请输入验证码', trigger: 'blur'}],
   },
   loading: false,
   passwordType: 'password',
@@ -143,7 +150,7 @@ const state = reactive({
 
 function validatePassword(rule: any, value: any, callback: any) {
   if (!value || value.length < 6) {
-    callback(new Error('The password can not be less than 6 digits'));
+    callback(new Error('密码长度不能少于 6 位'));
   } else {
     callback();
   }
@@ -160,9 +167,7 @@ const {
 } = toRefs(state);
 
 function checkCapslock(e: any) {
-  const {key} = e;
-  state.capslockTooltipDisabled =
-    key && key.length === 1 && key >= 'A' && key <= 'Z';
+  state.capslockTooltipDisabled = !e.getModifierState('CapsLock');
 }
 
 function showPwd() {
@@ -203,6 +208,8 @@ function handleCaptchaGenerate() {
       const {captchaImgBase64, verifyCodeKey} = data;
       verifyCodeImgUrl.value = captchaImgBase64;
       loginForm.value.verifyCodeKey = verifyCodeKey;
+      // 刷新验证码后清空输入，避免残留上一次的验证码
+      loginForm.value.verifyCode = '';
     })
     .catch(() => {
       // 验证码加载失败，静默处理，点击验证码图片可重新加载

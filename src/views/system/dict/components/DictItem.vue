@@ -86,11 +86,14 @@ const {
 function handleQuery() {
   if (state.queryParams.typeCode) {
     state.loading = true;
-    listDictItemPages(state.queryParams).then(({data}) => {
-      state.dictItemList = data.list;
-      state.total = data.total;
-      state.loading = false;
-    });
+    listDictItemPages(state.queryParams)
+      .then(({data}) => {
+        state.dictItemList = data.list;
+        state.total = data.total;
+      })
+      .finally(() => {
+        state.loading = false;
+      });
   } else {
     state.dictItemList = [];
     state.total = 0;
@@ -148,17 +151,21 @@ function submitForm() {
   dataFormRef.value.validate((isValid: boolean) => {
     if (isValid) {
       if (state.formData.id) {
-        updateDictItem(state.formData.id, state.formData).then(() => {
-          ElMessage.success('修改成功');
-          cancel();
-          handleQuery();
-        });
+        updateDictItem(state.formData.id, state.formData)
+          .then(() => {
+            ElMessage.success('修改成功');
+            cancel();
+            handleQuery();
+          })
+          .catch(() => {});
       } else {
-        saveDictItem(state.formData).then(() => {
-          ElMessage.success('新增成功');
-          cancel();
-          handleQuery();
-        });
+        saveDictItem(state.formData)
+          .then(() => {
+            ElMessage.success('新增成功');
+            cancel();
+            handleQuery();
+          })
+          .catch(() => {});
       }
     }
   });
@@ -178,10 +185,12 @@ function handleDelete(row: any) {
     type: 'warning',
   })
     .then(() => {
-      deleteDictItems(ids).then(() => {
-        ElMessage.success('删除成功');
-        handleQuery();
-      });
+      deleteDictItems(ids)
+        .then(() => {
+          ElMessage.success('删除成功');
+          handleQuery();
+        })
+        .catch(() => {});
     })
     .catch(() => ElMessage.info('已取消删除'));
 }

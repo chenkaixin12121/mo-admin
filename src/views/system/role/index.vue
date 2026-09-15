@@ -81,11 +81,14 @@ const {
 function handleQuery() {
   emit('roleClick', {});
   state.loading = true;
-  listRolePages(state.queryParams).then(({data}) => {
-    state.roleList = data.list;
-    state.total = data.total;
-    state.loading = false;
-  });
+  listRolePages(state.queryParams)
+    .then(({data}) => {
+      state.roleList = data.list;
+      state.total = data.total;
+    })
+    .finally(() => {
+      state.loading = false;
+    });
 }
 
 /**
@@ -173,10 +176,12 @@ function handleDelete(row: any) {
     type: 'warning',
   })
     .then(() => {
-      deleteRoles(ids).then(() => {
-        ElMessage.success('删除成功');
-        handleQuery();
-      });
+      deleteRoles(ids)
+        .then(() => {
+          ElMessage.success('删除成功');
+          handleQuery();
+        })
+        .catch(() => {});
     })
     .catch(() => ElMessage.info('已取消删除'));
 }
@@ -195,19 +200,21 @@ function showRoleMenuDialog(row: Role) {
   };
 
   // 获取所有的资源
-  listResources().then((response) => {
-    resourceOptions.value = response.data;
-    // 角色拥有的资源
-    getRoleMenuIds(roleId).then(({data}) => {
-      // 勾选回显
-      const checkedMenuIds = data;
-      checkedMenuIds.forEach((menuId) =>
-        resourceRef.value.setChecked(menuId, true)
-      );
-
+  listResources()
+    .then((response) => {
+      resourceOptions.value = response.data;
+      // 角色拥有的资源
+      return getRoleMenuIds(roleId).then(({data}) => {
+        // 勾选回显
+        const checkedMenuIds = data;
+        checkedMenuIds.forEach((menuId) =>
+          resourceRef.value.setChecked(menuId, true)
+        );
+      });
+    })
+    .finally(() => {
       loading.value = false;
     });
-  });
 }
 
 /**
@@ -218,11 +225,13 @@ function handleRoleResourceSubmit() {
     .getCheckedNodes(false, true)
     .map((node: any) => node.value);
 
-  updateRoleMenus(checkedRole.value.id, checkedMenuIds).then((res) => {
-    ElMessage.success('分配权限成功');
-    menuDialogVisible.value = false;
-    handleQuery();
-  });
+  updateRoleMenus(checkedRole.value.id, checkedMenuIds)
+    .then(() => {
+      ElMessage.success('分配权限成功');
+      menuDialogVisible.value = false;
+      handleQuery();
+    })
+    .catch(() => {});
 }
 
 /**
@@ -298,8 +307,8 @@ onMounted(() => {
         </el-table-column>
 
         <el-table-column align="center" label="排序" prop="sort" width="100"/>
-        <el-table-column label="创建时间" prop="createTime" width="160"/>
-        <el-table-column label="修改时间" prop="updateTime" width="160"/>
+        <el-table-column align="center" label="创建时间" prop="createTime" width="180"/>
+        <el-table-column align="center" label="修改时间" prop="updateTime" width="180"/>
 
         <el-table-column align="left" label="操作">
           <template #default="scope">
