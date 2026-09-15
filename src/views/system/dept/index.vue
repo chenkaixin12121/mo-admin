@@ -16,7 +16,7 @@ import {
   listDepartments,
 } from '@/api/system/dept';
 
-import {Search, Plus, Edit, Refresh, Delete} from '@element-plus/icons-vue';
+import {Search, Plus, Refresh, Delete} from '@element-plus/icons-vue';
 import {ElForm, ElMessage, ElMessageBox} from 'element-plus';
 import {Dept, DeptForm, DeptQuery} from '@/api/system/dept/types';
 
@@ -100,8 +100,14 @@ async function getDeptOptions() {
  */
 function handleAdd(row: any) {
   getDeptOptions();
-  formData.value.id = undefined;
-  formData.value.parentId = row.id;
+  // 重置表单，避免残留上次编辑的数据；工具栏新增时 row 为事件对象，按顶级部门处理
+  formData.value = {
+    id: undefined,
+    parentId: row && row.id ? row.id : '0',
+    name: '',
+    sort: 1,
+    status: 1,
+  };
   dialog.value = {
     title: '添加部门',
     visible: true,
@@ -113,7 +119,7 @@ function handleAdd(row: any) {
  */
 async function handleUpdate(row: any) {
   await getDeptOptions();
-  const deptId = row.id || state.ids;
+  const deptId = row.id;
   state.dialog = {
     title: '修改部门',
     visible: true,

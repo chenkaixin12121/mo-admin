@@ -105,6 +105,15 @@ function handleRowClick(row: any) {
 }
 
 function handleAdd() {
+  // 重置表单，避免残留上次编辑的数据
+  state.formData = {
+    id: undefined,
+    name: '',
+    code: '',
+    sort: 0,
+    status: 1,
+    dataScope: 0,
+  };
   dialog.value = {
     title: '添加角色',
     visible: true,
@@ -116,32 +125,31 @@ function handleUpdate(row: any) {
     title: '修改角色',
     visible: true,
   };
-  const roleId = row.id || state.ids;
+  const roleId = row.id;
   getRoleFormDetail(roleId).then(({data}) => {
     state.formData = data;
   });
 }
 
 function submitFormData() {
-  loading.value = true;
   dataFormRef.value.validate((valid: any) => {
-    if (valid) {
-      if (state.formData.id) {
-        updateRole(state.formData.id as any, state.formData).then(() => {
-          ElMessage.success('修改角色成功');
-          closeDialog();
-          handleQuery();
-          loading.value = false;
-        });
-      } else {
-        addRole(state.formData).then(() => {
-          closeDialog();
-          ElMessage.success('新增角色成功');
-          handleQuery();
-          loading.value = false;
-        });
-      }
+    if (!valid) {
+      return;
     }
+    loading.value = true;
+    const request = state.formData.id
+      ? updateRole(state.formData.id as any, state.formData)
+      : addRole(state.formData);
+    const successMsg = state.formData.id ? '修改角色成功' : '新增角色成功';
+    request
+      .then(() => {
+        ElMessage.success(successMsg);
+        closeDialog();
+        handleQuery();
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   });
 }
 

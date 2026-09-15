@@ -10,7 +10,7 @@ export const hasPerm: Directive = {
     const {user} = useStore();
     const roles = user.roles;
     if (roles.includes('SUPER-ADMIN')) {
-      return true;
+      return;
     }
     // 「其他角色」按钮权限校验
     const {value} = binding;
@@ -42,8 +42,8 @@ export const hasRole: Directive = {
     if (value) {
       const requiredRoles = value; // DOM绑定需要的角色编码
       const {user} = useStore();
-      const hasRole = user.roles.some((perm) => {
-        return requiredRoles.includes(perm);
+      const hasRole = user.roles.some((role) => {
+        return requiredRoles.includes(role);
       });
 
       if (!hasRole) {

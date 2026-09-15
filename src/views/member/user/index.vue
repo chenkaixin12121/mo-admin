@@ -51,8 +51,8 @@ function resetQuery() {
 
 function handleSelectionChange(selection: any) {
   state.ids = selection.map((item: { id: any }) => item.id);
-  state.single = selection.length != 1;
-  state.multiple = !selection.length;
+  state.single = selection.length === 1;
+  state.multiple = selection.length > 1;
 }
 
 onMounted(() => {

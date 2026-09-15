@@ -251,6 +251,20 @@ function resetPassword(row: { [key: string]: any }) {
  * 添加用户
  **/
 async function handleAdd() {
+  // 重置表单，避免残留上次编辑的数据
+  state.formData = {
+    id: undefined,
+    deptId: undefined,
+    username: '',
+    nickname: '',
+    password: '',
+    mobile: '',
+    email: '',
+    gender: 1,
+    status: 1,
+    remark: '',
+    roleIds: [],
+  } as any;
   state.dialog = {
     title: '添加用户',
     visible: true,

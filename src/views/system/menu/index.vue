@@ -101,7 +101,7 @@
           <template #default="scope">
             <el-button
               v-if="scope.row.type === 1"
-              v-hasPerm="['sys:user:save']"
+              v-hasPerm="['sys:menu:save']"
               link
               type="success"
 
@@ -111,7 +111,7 @@
             </el-button>
 
             <el-button
-              v-hasPerm="['sys:user:update']"
+              v-hasPerm="['sys:menu:update']"
               link
               type="primary"
               @click.stop="handleUpdate(scope.row)"
@@ -119,7 +119,7 @@
               修改
             </el-button>
             <el-button
-              v-hasPerm="['sys:user:delete']"
+              v-hasPerm="['sys:menu:delete']"
               link
               type="danger"
               @click.stop="handleDelete(scope.row)"
@@ -390,7 +390,6 @@
    * 新增菜单打开
    */
   async function handleAdd(row: any) {
-    formData.value.id = undefined;
     await loadMenuData();
     loadDictOptions();
     dialog.value = {
@@ -398,20 +397,30 @@
       visible: true,
     };
 
-    if (row.id) {
+    // 重置表单，避免残留上次编辑的数据
+    formData.value = {
+      id: undefined,
+      parentId: '0',
+      name: '',
+      type: 1,
+      visible: 1,
+      sort: 1,
+      component: undefined,
+      path: '',
+      perm: undefined,
+      icon: undefined,
+      alwaysShow: undefined,
+    };
+
+    if (row && row.id) {
       // 行点击新增
-
       formData.value.parentId = row.id;
+    } else if (state.currentRow) {
+      // 选择行
+      formData.value.parentId = (state.currentRow as any).id;
     } else {
-      // 工具栏新增
-
-      if (state.currentRow) {
-        // 选择行
-        formData.value.parentId = (state.currentRow as any).id;
-      } else {
-        // 未选择行
-        formData.value.parentId = '0';
-      }
+      // 未选择行
+      formData.value.parentId = '0';
     }
   }
 
