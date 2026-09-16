@@ -58,7 +58,7 @@
       </el-tooltip>
 
       <!-- 验证码 -->
-      <el-form-item prop="verifyCode">
+      <el-form-item prop="verifyCode" class="captcha-item">
         <span class="svg-container">
           <svg-icon icon-class="valid_code"/>
         </span>
@@ -66,7 +66,6 @@
           v-model="loginForm.verifyCode"
           :placeholder="$t('login.code')"
           auto-complete="off"
-          style="width: 65%"
           tabindex="3"
           @keyup.enter="handleLogin"
         />
@@ -74,7 +73,6 @@
         <div class="captcha">
           <img
             :src="verifyCodeImgUrl"
-            height="38px"
             @click="handleCaptchaGenerate"
           />
         </div>
@@ -386,15 +384,28 @@ $light_gray: #eee;
     user-select: none;
   }
 
-  .captcha {
-    position: absolute;
-    right: 0;
-    top: 0;
+  .captcha-item {
+    display: flex;
+    align-items: center;
 
-    img {
-      height: 42px;
-      cursor: pointer;
-      vertical-align: middle;
+    .svg-container {
+      flex-shrink: 0;
+    }
+
+    .el-input {
+      flex: 1;
+      width: auto;
+      margin-right: 8px;
+    }
+
+    .captcha {
+      flex-shrink: 0;
+
+      img {
+        height: 36px;
+        display: block;
+        cursor: pointer;
+      }
     }
   }
 }
