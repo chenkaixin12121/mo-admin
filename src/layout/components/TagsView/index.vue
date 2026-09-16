@@ -32,27 +32,27 @@
     >
       <li @click="refreshSelectedTag(selectedTag)">
         <svg-icon icon-class="refresh"/>
-        刷新
+        {{ $t('tagsView.refresh') }}
       </li>
       <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
         <svg-icon icon-class="close"/>
-        关闭
+        {{ $t('tagsView.close') }}
       </li>
       <li @click="closeOtherTags">
         <svg-icon icon-class="close_other"/>
-        关闭其它
+        {{ $t('tagsView.closeOthers') }}
       </li>
       <li v-if="!isFirstView()" @click="closeLeftTags">
         <svg-icon icon-class="close_left"/>
-        关闭左侧
+        {{ $t('tagsView.closeLeft') }}
       </li>
       <li v-if="!isLastView()" @click="closeRightTags">
         <svg-icon icon-class="close_right"/>
-        关闭右侧
+        {{ $t('tagsView.closeRight') }}
       </li>
       <li @click="closeAllTags(selectedTag)">
         <svg-icon icon-class="close_all"/>
-        关闭所有
+        {{ $t('tagsView.closeAll') }}
       </li>
     </ul>
   </div>

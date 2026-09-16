@@ -50,6 +50,7 @@
 import {computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
 import {ElMessageBox} from 'element-plus';
+import {useI18n} from 'vue-i18n';
 
 import useStore from '@/store';
 
@@ -64,6 +65,7 @@ import LangSelect from '@/components/LangSelect/index.vue';
 import {CaretBottom, UserFilled} from '@element-plus/icons-vue';
 
 const {app, user, tagsView} = useStore();
+const {t} = useI18n();
 
 const route = useRoute();
 const router = useRouter();
@@ -77,9 +79,9 @@ function toggleSideBar() {
 }
 
 function logout() {
-  ElMessageBox.confirm('确定注销并退出系统吗？', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(t('navbar.logoutConfirm'), t('common.confirm'), {
+    confirmButtonText: t('common.confirm'),
+    cancelButtonText: t('common.cancel'),
     type: 'warning',
   }).then(() => {
     user

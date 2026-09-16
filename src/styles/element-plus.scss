@@ -48,9 +48,16 @@
   background-color: #e1f3d8b5 !important;
 }
 
-// card 的header统一高度
+// card 的 header 统一高度，随组件尺寸自适应并让内容垂直居中
 .el-card__header {
-  height: 60px !important;
+  height: auto;
+  min-height: 60px;
+  padding: 12px 20px;
+  overflow: hidden;
+
+  .el-form-item {
+    margin-bottom: 0;
+  }
 }
 
 // 表格表头和表体未对齐

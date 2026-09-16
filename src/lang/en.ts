@@ -18,6 +18,21 @@ export default {
   navbar: {
     dashboard: 'Dashboard',
     logout: 'Sign Out',
+    logoutConfirm: 'Are you sure you want to sign out?',
+  },
+  // 通用文案
+  common: {
+    confirm: 'Confirm',
+    cancel: 'Cancel',
+  },
+  // 标签页右键菜单
+  tagsView: {
+    refresh: 'Refresh',
+    close: 'Close',
+    closeOthers: 'Close Others',
+    closeLeft: 'Close Left',
+    closeRight: 'Close Right',
+    closeAll: 'Close All',
   },
   // 系统布局配置
   settings: {

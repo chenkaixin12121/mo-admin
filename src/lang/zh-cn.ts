@@ -18,6 +18,21 @@ export default {
   navbar: {
     dashboard: '首页',
     logout: '退出登录',
+    logoutConfirm: '确定退出登录吗？',
+  },
+  // 通用文案
+  common: {
+    confirm: '确定',
+    cancel: '取消',
+  },
+  // 标签页右键菜单
+  tagsView: {
+    refresh: '刷新',
+    close: '关闭',
+    closeOthers: '关闭其它',
+    closeLeft: '关闭左侧',
+    closeRight: '关闭右侧',
+    closeAll: '关闭所有',
   },
   // 系统布局配置
   settings: {
