@@ -100,14 +100,6 @@ import RadarChart from './components/Chart/RadarChart.vue';
   background-color: var(--el-bg-color-page);
   position: relative;
 
-  .github-corner {
-    position: absolute;
-    top: 0;
-    border: 0;
-    right: 0;
-    z-index: 99;
-  }
-
   .box-center {
     margin: 0 auto;
     display: table;

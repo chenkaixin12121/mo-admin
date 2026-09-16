@@ -33,6 +33,11 @@ const {mounted, chart, beforeDestroy, activated, deactivated} = resize();
 
 function initChart() {
   const pieChart = init(document.getElementById(props.id) as HTMLDivElement);
+  // 标题文字颜色跟随主题，避免暗色模式下深色标题看不清
+  const textColor =
+    getComputedStyle(document.documentElement)
+      .getPropertyValue('--el-text-color-primary')
+      .trim() || '#303133';
 
   pieChart.setOption({
     title: {
@@ -44,7 +49,7 @@ function initChart() {
         fontSize: 18,
         fontStyle: 'normal',
         fontWeight: 'bold',
-        color: '#337ecc',
+        color: textColor,
       },
     },
     grid: {
