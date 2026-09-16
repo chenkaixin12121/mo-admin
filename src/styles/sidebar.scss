@@ -10,6 +10,7 @@
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
+    border-right: 1px solid var(--el-border-color-light);
     height: 100%;
     position: fixed;
     font-size: 0;
@@ -78,6 +79,25 @@
 
     .is-active > .el-sub-menu__title {
       color: $subMenuActiveText !important;
+    }
+
+    // 激活菜单项：浅蓝背景 + 左侧高亮竖条
+    .el-menu-item.is-active {
+      position: relative;
+      background-color: var(--el-color-primary-light-9) !important;
+      color: $menuActiveText !important;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 3px;
+        height: 18px;
+        background-color: $menuActiveText;
+        border-radius: 0 2px 2px 0;
+      }
     }
 
     & .nest-menu .el-sub-menu > .el-sub-menu__title,
@@ -225,6 +245,39 @@
     &::-webkit-scrollbar-thumb {
       background: #99a9bf;
       border-radius: 20px;
+    }
+  }
+}
+
+// 暗色模式下侧边栏同步变暗，避免浅色侧边栏与暗色内容区冲突
+html.dark {
+  #app .sidebar-container {
+    border-right-color: var(--el-border-color);
+
+    .el-menu {
+      --el-menu-bg-color: #141414 !important;
+      --el-menu-text-color: rgba(255, 255, 255, 0.72) !important;
+      --el-menu-active-color: var(--el-color-primary) !important;
+    }
+
+    .submenu-title-noDropdown,
+    .el-sub-menu__title {
+      &:hover {
+        background-color: #1f1f1f !important;
+      }
+    }
+
+    .el-menu-item.is-active {
+      background-color: rgba(22, 119, 255, 0.16) !important;
+    }
+
+    & .nest-menu .el-sub-menu > .el-sub-menu__title,
+    & .el-sub-menu .el-menu-item {
+      background-color: #141414 !important;
+
+      &:hover {
+        background-color: #1f1f1f !important;
+      }
     }
   }
 }

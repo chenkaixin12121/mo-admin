@@ -73,3 +73,22 @@ div:focus {
   border-radius: var(--el-card-border-radius);
   border: 1px solid var(--el-card-border-color);
 }
+
+// 全局细滚动条，替换浏览器默认的粗滚动条
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8ccd4;
+  border-radius: 4px;
+
+  &:hover {
+    background: #a8adb8;
+  }
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

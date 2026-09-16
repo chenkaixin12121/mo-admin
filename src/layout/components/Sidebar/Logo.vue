@@ -53,7 +53,8 @@ const logo = ref(new URL(`../../../assets/logo.png`, import.meta.url).href);
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: var(--el-bg-color);
+  border-bottom: 1px solid var(--el-border-color-light);
   text-align: center;
   overflow: hidden;
 
@@ -70,7 +71,7 @@ const logo = ref(new URL(`../../../assets/logo.png`, import.meta.url).href);
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #fff;
+      color: var(--el-text-color-primary);
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;

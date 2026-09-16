@@ -1,9 +1,18 @@
 :root {
-  // 这里可以设置你自定义的颜色变量
+  // 主题色：现代化蓝色，含完整明暗色阶（hover/active/浅色背景等场景）
+  --el-color-primary: #1677ff;
+  --el-color-primary-dark-2: #0958d9;
+  --el-color-primary-light-3: #4096ff;
+  --el-color-primary-light-5: #69b1ff;
+  --el-color-primary-light-7: #91caff;
+  --el-color-primary-light-8: #bae0ff;
+  --el-color-primary-light-9: #e6f4ff;
   // 这个是element主要按钮:active的颜色，当主题更改后此变量的值也随之更改
-  --el-color-primary-dark: #0d84ff;
+  --el-color-primary-dark: #0958d9;
+  // 统一圆角，让按钮/输入框/卡片更圆润现代
+  --el-border-radius-base: 6px;
   // element plus 2.1.0 禁用文本色值和正常文本色值无法区分问题
-  --el-text-color-disabled: #ccc;
+  --el-text-color-disabled: #c0c4cc;
 }
 
 // 覆盖 element-plus 的样式
