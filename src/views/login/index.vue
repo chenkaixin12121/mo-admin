@@ -174,7 +174,10 @@ const {
 } = toRefs(state);
 
 function checkCapslock(e: KeyboardEvent) {
-  state.capslockTooltipDisabled = !e.getModifierState('CapsLock');
+  // 防御：个别环境(如浏览器扩展)下 keyup 事件对象可能非标准，缺少 getModifierState
+  if (e && typeof e.getModifierState === 'function') {
+    state.capslockTooltipDisabled = !e.getModifierState('CapsLock');
+  }
 }
 
 function showPwd() {
