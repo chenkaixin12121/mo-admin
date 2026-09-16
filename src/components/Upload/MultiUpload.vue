@@ -65,7 +65,6 @@ const fileList = ref([] as UploadUserFile[]);
 watch(
   () => props.modelValue,
   (newVal: string[]) => {
-    console.log('newVal', newVal);
     const filePaths = fileList.value.map((file) => file.url);
     // 监听modelValue文件集合值未变化时，跳过赋值
     if (

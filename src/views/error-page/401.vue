@@ -56,7 +56,7 @@ function back() {
   margin: 100px auto;
 
   .pan-back-btn {
-    background: #008489;
+    background: var(--el-color-primary);
     color: #fff;
     border: none !important;
   }
@@ -75,7 +75,7 @@ function back() {
   .text-jumbo {
     font-size: 60px;
     font-weight: 700;
-    color: #484848;
+    color: var(--el-text-color-primary);
   }
 
   .list-unstyled {
@@ -86,7 +86,7 @@ function back() {
     }
 
     a {
-      color: #008489;
+      color: var(--el-color-primary);
       text-decoration: none;
 
       &:hover {

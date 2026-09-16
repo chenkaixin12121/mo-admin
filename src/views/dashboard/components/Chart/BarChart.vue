@@ -5,8 +5,8 @@
 
 <script lang="ts" setup>
 import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted,} from 'vue';
-import * as echarts from 'echarts';
-import {EChartsOption, init} from 'echarts';
+import echarts from '@/utils/echarts';
+import type {EChartsOption} from 'echarts';
 import resize from '@/utils/resize';
 
 const props = defineProps({
@@ -33,7 +33,7 @@ const props = defineProps({
 const {mounted, chart, beforeDestroy, activated, deactivated} = resize();
 
 function initChart() {
-  const barChart = init(document.getElementById(props.id) as HTMLDivElement);
+  const barChart = echarts.init(document.getElementById(props.id) as HTMLDivElement);
   // 标题文字颜色跟随主题，避免暗色模式下深色标题看不清
   const textColor =
     getComputedStyle(document.documentElement)

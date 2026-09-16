@@ -32,7 +32,7 @@ export default defineComponent({
         app.closeSideBar(false);
       }
       router.push(props.to).catch((err) => {
-        console.log(err);
+        console.error(err);
       });
     };
     return {
