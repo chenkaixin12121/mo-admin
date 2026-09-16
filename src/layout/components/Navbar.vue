@@ -17,6 +17,7 @@
         <el-tooltip content="布局大小" effect="dark" placement="bottom">
           <size-select id="size-select" class="right-menu-item hover-effect"/>
         </el-tooltip>
+        <lang-select id="lang-select" class="right-menu-item hover-effect"/>
       </template>
 
       <el-dropdown
@@ -57,6 +58,7 @@ import Breadcrumb from '@/components/Breadcrumb/index.vue';
 import Hamburger from '@/components/Hamburger/index.vue';
 import Screenfull from '@/components/Screenfull/index.vue';
 import SizeSelect from '@/components/SizeSelect/index.vue';
+import LangSelect from '@/components/LangSelect/index.vue';
 
 // 图标依赖
 import {CaretBottom, UserFilled} from '@element-plus/icons-vue';

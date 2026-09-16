@@ -8,7 +8,7 @@ export default {
 <script lang="ts" setup>
 
 function message() {
-  return 'The webmaster said that you can not enter this page...';
+  return '您访问的页面不存在或已被移除...';
 }
 </script>
 
@@ -24,16 +24,11 @@ function message() {
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">OOPS!</div>
-        <div class="bullshit__info">
-          All rights reserved
-          <a href="https://wallstreetcn.com" style="color: #20a0ff" target="_blank">wallstreetcn</a>
-        </div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">
-          Please check that the URL you entered is correct, or click the button
-          below to return to the homepage.
+          请检查您输入的网址是否正确，或点击下方按钮返回首页。
         </div>
-        <a class="bullshit__return-home" href="">Back to home</a>
+        <router-link class="bullshit__return-home" to="/">返回首页</router-link>
       </div>
     </div>
   </div>

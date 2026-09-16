@@ -22,6 +22,7 @@
 <script lang="ts" setup>
 import {onBeforeUnmount, reactive, shallowRef, toRefs} from 'vue';
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
+import {ElMessage} from 'element-plus';
 
 // API 引用
 import {uploadFileApi} from '@/api/file';
@@ -46,11 +47,14 @@ const state = reactive({
       uploadImage: {
         // 自定义图片上传
         async customUpload(file: any, insertFn: any) {
-          console.log('上传图片');
-          uploadFileApi(file).then((response) => {
-            const url = response.data.url;
-            insertFn(url);
-          });
+          uploadFileApi(file)
+            .then((response) => {
+              const url = response.data.url;
+              insertFn(url);
+            })
+            .catch(() => {
+              ElMessage.error('图片上传失败');
+            });
         },
       },
     },
