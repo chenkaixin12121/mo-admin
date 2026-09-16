@@ -4,10 +4,13 @@
 </template>
 
 <script lang="ts" setup>
-import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted,} from 'vue';
+import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, watch,} from 'vue';
+import {useI18n} from 'vue-i18n';
 import echarts from '@/utils/echarts';
 import type {EChartsOption} from 'echarts';
 import resize from '@/utils/resize';
+
+const {t, locale} = useI18n();
 
 const props = defineProps({
   id: {
@@ -33,7 +36,12 @@ const props = defineProps({
 const {mounted, chart, beforeDestroy, activated, deactivated} = resize();
 
 function initChart() {
-  const barChart = echarts.init(document.getElementById(props.id) as HTMLDivElement);
+  const el = document.getElementById(props.id) as HTMLDivElement;
+  const existing = echarts.getInstanceByDom(el);
+  if (existing) {
+    existing.dispose();
+  }
+  const barChart = echarts.init(el);
   // 标题文字颜色跟随主题，避免暗色模式下深色标题看不清
   const textColor =
     getComputedStyle(document.documentElement)
@@ -43,7 +51,7 @@ function initChart() {
   barChart.setOption({
     title: {
       show: true,
-      text: '业绩总览',
+      text: t('dashboard.performance'),
       x: 'center',
       padding: 15,
       textStyle: {
@@ -71,12 +79,23 @@ function initChart() {
     legend: {
       x: 'center',
       y: 'bottom',
-      data: ['收入', '毛利润', '收入增长率', '利润增长率'],
+      data: [
+        t('dashboard.income'),
+        t('dashboard.grossProfit'),
+        t('dashboard.incomeGrowth'),
+        t('dashboard.profitGrowth'),
+      ],
     },
     xAxis: [
       {
         type: 'category',
-        data: ['浙江', '北京', '上海', '广东', '深圳'],
+        data: [
+          t('dashboard.zhejiang'),
+          t('dashboard.beijing'),
+          t('dashboard.shanghai'),
+          t('dashboard.guangdong'),
+          t('dashboard.shenzhen'),
+        ],
         axisPointer: {
           type: 'shadow',
         },
@@ -104,7 +123,7 @@ function initChart() {
     ],
     series: [
       {
-        name: '收入',
+        name: t('dashboard.income'),
         type: 'bar',
         data: [7000, 7100, 7200, 7300, 7400],
         barWidth: 20,
@@ -117,7 +136,7 @@ function initChart() {
         },
       },
       {
-        name: '毛利润',
+        name: t('dashboard.grossProfit'),
         type: 'bar',
         data: [8000, 8200, 8400, 8600, 8800],
         barWidth: 20,
@@ -130,7 +149,7 @@ function initChart() {
         },
       },
       {
-        name: '收入增长率',
+        name: t('dashboard.incomeGrowth'),
         type: 'line',
         yAxisIndex: 1,
         data: [60, 65, 70, 75, 80],
@@ -139,7 +158,7 @@ function initChart() {
         },
       },
       {
-        name: '利润增长率',
+        name: t('dashboard.profitGrowth'),
         type: 'line',
         yAxisIndex: 1,
         data: [70, 75, 80, 85, 90],
@@ -151,6 +170,11 @@ function initChart() {
   } as EChartsOption);
   chart.value = barChart;
 }
+
+// 语言切换后重新渲染图表文案
+watch(locale, () => {
+  initChart();
+});
 
 onBeforeUnmount(() => {
   beforeDestroy();

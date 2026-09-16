@@ -21,8 +21,9 @@
 
 <script lang="ts" setup>
 import {onBeforeUnmount, reactive, shallowRef, toRefs} from 'vue';
+import {useI18n} from 'vue-i18n';
 import {Editor, Toolbar} from '@wangeditor/editor-for-vue';
-import {ElMessage} from 'element-plus';
+import type {IDomEditor} from '@wangeditor/editor';
 
 // API 引用
 import {uploadFileApi} from '@/api/file';
@@ -38,22 +39,23 @@ const emit = defineEmits(['update:modelValue']);
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();
+const {t} = useI18n();
 
 const state = reactive({
   toolbarConfig: {},
   editorConfig: {
-    placeholder: '请输入内容...',
+    placeholder: t('common.editorPlaceholder'),
     MENU_CONF: {
       uploadImage: {
         // 自定义图片上传
-        async customUpload(file: any, insertFn: any) {
+        async customUpload(file: File, insertFn: (url: string) => void) {
           uploadFileApi(file)
             .then((response) => {
               const url = response.data.url;
               insertFn(url);
             })
             .catch(() => {
-              ElMessage.error('图片上传失败');
+              ElMessage.error(t('common.imageUploadFailed'));
             });
         },
       },
@@ -65,11 +67,11 @@ const state = reactive({
 
 const {toolbarConfig, editorConfig, defaultHtml, mode} = toRefs(state);
 
-const handleCreated = (editor: any) => {
+const handleCreated = (editor: IDomEditor) => {
   editorRef.value = editor; // 记录 editor 实例，重要！
 };
 
-function handleChange(editor: any) {
+function handleChange(editor: IDomEditor) {
   emit('update:modelValue', editor.getHtml());
 }
 

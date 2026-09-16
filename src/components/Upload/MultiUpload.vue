@@ -27,10 +27,9 @@
 
 <script lang="ts" setup>
 import {ref, watch} from 'vue';
+import {useI18n} from 'vue-i18n';
 import {Plus} from '@element-plus/icons-vue';
 import {
-  ElMessage,
-  ElUpload,
   UploadFile,
   UploadProps,
   UploadRawFile,
@@ -40,6 +39,7 @@ import {
 import {deleteFileApi, uploadFileApi} from '@/api/file';
 
 const emit = defineEmits(['update:modelValue']);
+const {t} = useI18n();
 
 const props = defineProps({
   /**
@@ -128,7 +128,7 @@ function handleRemove(removeFile: UploadFile) {
  */
 function handleBeforeUpload(file: UploadRawFile) {
   if (file.size > 2 * 1024 * 1024) {
-    ElMessage.warning('上传图片不能大于2M');
+    ElMessage.warning(t('common.imageTooLarge'));
     return false;
   }
   return true;

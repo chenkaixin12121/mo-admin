@@ -16,7 +16,7 @@ const state = reactive({
   // 遮罩层
   loading: true,
   // 选中数组
-  ids: [],
+  ids: [] as number[],
   // 非单个禁用
   single: true,
   // 非多个禁用
@@ -52,8 +52,8 @@ function resetQuery() {
   handleQuery();
 }
 
-function handleSelectionChange(selection: any) {
-  state.ids = selection.map((item: { id: any }) => item.id);
+function handleSelectionChange(selection: Member[]) {
+  state.ids = selection.map((item: Member) => item.id);
   state.single = selection.length === 1;
   state.multiple = selection.length > 1;
 }
@@ -71,16 +71,16 @@ onMounted(() => {
           <el-input
             v-model="queryParams.keywords"
             clearable
-            placeholder="会员昵称"
+            :placeholder="$t('member.user.memberNickname')"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
         <el-form-item>
           <el-button :icon="Search" type="primary" @click="handleQuery"
-          >搜索
+          >{{ $t('common.search') }}
           </el-button
           >
-          <el-button :icon="Refresh" @click="resetQuery">重置</el-button>
+          <el-button :icon="Refresh" @click="resetQuery">{{ $t('common.reset') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -93,16 +93,16 @@ onMounted(() => {
         @selection-change="handleSelectionChange"
       >
         <el-table-column align="center" type="selection"/>
-        <el-table-column align="center" label="序号" type="index" width="100"/>
-        <el-table-column label="昵称" prop="nickName"/>
-        <el-table-column label="性别" width="80">
+        <el-table-column align="center" :label="$t('member.user.index')" type="index" width="100"/>
+        <el-table-column :label="$t('member.user.nickname')" prop="nickName"/>
+        <el-table-column :label="$t('member.user.gender')" width="80">
           <template #default="scope">
-            <span v-if="scope.row.gender === 0">未知</span>
-            <span v-else-if="scope.row.gender === 1">男</span>
-            <span v-else-if="scope.row.gender === 2">女</span>
+            <span v-if="scope.row.gender === 0">{{ $t('common.unknown') }}</span>
+            <span v-else-if="scope.row.gender === 1">{{ $t('common.male') }}</span>
+            <span v-else-if="scope.row.gender === 2">{{ $t('common.female') }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="头像" width="100">
+        <el-table-column :label="$t('member.user.avatar')" width="100">
           <template #default="scope">
             <el-popover :width="400" placement="right" trigger="hover">
               <img
@@ -111,7 +111,7 @@ onMounted(() => {
                 height="400"
                 width="400"
               />
-              <span v-else class="avatar-placeholder">暂无头像</span>
+              <span v-else class="avatar-placeholder">{{ $t('member.user.noAvatar') }}</span>
               <template #reference>
                 <img
                   v-if="scope.row.avatarUrl"
@@ -123,16 +123,16 @@ onMounted(() => {
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="手机号码" prop="mobile"/>
-        <el-table-column label="出生日期" prop="birthday"/>
-        <el-table-column label="状态" prop="status" width="80">
+        <el-table-column :label="$t('member.user.mobile')" prop="mobile"/>
+        <el-table-column :label="$t('member.user.birthday')" prop="birthday"/>
+        <el-table-column :label="$t('common.status')" prop="status" width="80">
           <template #default="scope">
-            <el-tag v-if="scope.row.status === 1" type="success">正常</el-tag>
-            <el-tag v-else type="info">禁用</el-tag>
+            <el-tag v-if="scope.row.status === 1" type="success">{{ $t('common.normal') }}</el-tag>
+            <el-tag v-else type="info">{{ $t('common.disabled') }}</el-tag>
           </template>
         </el-table-column>
 
-        <el-table-column label="注册时间" prop="createTime"/>
+        <el-table-column :label="$t('member.user.registerTime')" prop="createTime"/>
       </el-table>
     </el-card>
 

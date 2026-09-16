@@ -21,7 +21,7 @@ export interface UserQuery extends PageQuery {
  * 用户分页列表项声明
  */
 export interface UserType {
-  id: string;
+  id: number;
   username: string;
   nickname: string;
   mobile: string;

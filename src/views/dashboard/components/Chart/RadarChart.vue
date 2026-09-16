@@ -4,10 +4,13 @@
 </template>
 
 <script lang="ts" setup>
-import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted} from 'vue';
+import {nextTick, onActivated, onBeforeUnmount, onDeactivated, onMounted, watch} from 'vue';
+import {useI18n} from 'vue-i18n';
 import echarts from '@/utils/echarts';
 import type {EChartsOption} from 'echarts';
 import resize from '@/utils/resize';
+
+const {t, locale} = useI18n();
 
 const props = defineProps({
   id: {
@@ -33,7 +36,12 @@ const props = defineProps({
 const {mounted, chart, beforeDestroy, activated, deactivated} = resize();
 
 function initChart() {
-  const radarChart = echarts.init(document.getElementById(props.id) as HTMLDivElement);
+  const el = document.getElementById(props.id) as HTMLDivElement;
+  const existing = echarts.getInstanceByDom(el);
+  if (existing) {
+    existing.dispose();
+  }
+  const radarChart = echarts.init(el);
   // 标题文字颜色跟随主题，避免暗色模式下深色标题看不清
   const textColor =
     getComputedStyle(document.documentElement)
@@ -43,7 +51,7 @@ function initChart() {
   radarChart.setOption({
     title: {
       show: true,
-      text: '订单状态统计',
+      text: t('dashboard.orderStatus'),
       x: 'center',
       padding: 15,
       textStyle: {
@@ -62,18 +70,22 @@ function initChart() {
     legend: {
       x: 'center',
       y: 'bottom',
-      data: ['预定数量', '下单数量', '发货数量']
+      data: [
+        t('dashboard.reservedQty'),
+        t('dashboard.orderQty'),
+        t('dashboard.shippedQty'),
+      ]
     },
     radar: {
       // shape: 'circle',
       radius: '60%',
       indicator: [
-        {name: '家用电器'},
-        {name: '服装箱包'},
-        {name: '运动户外'},
-        {name: '手机数码'},
-        {name: '汽车用品'},
-        {name: '家具厨具'}
+        {name: t('dashboard.homeAppliance')},
+        {name: t('dashboard.clothing')},
+        {name: t('dashboard.sportOutdoor')},
+        {name: t('dashboard.phoneDigital')},
+        {name: t('dashboard.autoParts')},
+        {name: t('dashboard.furniture')}
       ]
     },
     series: [
@@ -82,7 +94,7 @@ function initChart() {
         type: 'radar',
         itemStyle: {
           borderRadius: 6,
-          color: function (params: any) {
+          color: function (params: {dataIndex: number}) {
             //自定义颜色
             const colorList = ['#409EFF', '#67C23A', '#E6A23C', '#F56C6C'];
             return colorList[params.dataIndex];
@@ -91,15 +103,15 @@ function initChart() {
         data: [
           {
             value: [400, 400, 400, 400, 400, 400],
-            name: '预定数量'
+            name: t('dashboard.reservedQty')
           },
           {
             value: [300, 300, 300, 300, 300, 300],
-            name: '下单数量'
+            name: t('dashboard.orderQty')
           },
           {
             value: [200, 200, 200, 200, 200, 200],
-            name: '发货数量'
+            name: t('dashboard.shippedQty')
           }
         ]
       }
@@ -108,6 +120,11 @@ function initChart() {
 
   chart.value = radarChart;
 }
+
+// 语言切换后重新渲染图表文案
+watch(locale, () => {
+  initChart();
+});
 
 onBeforeUnmount(() => {
   beforeDestroy();

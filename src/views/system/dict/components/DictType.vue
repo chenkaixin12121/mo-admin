@@ -10,7 +10,7 @@ export default {
     <el-form ref="queryFormRef" :inline="true" :model="state.queryParams">
       <el-form-item>
         <el-button v-hasPerm="['sys:dict:type:save']" :icon="Plus" type="success" @click="handleAdd"
-        >新增
+        >{{ $t('common.add') }}
         </el-button
         >
         <el-button
@@ -19,7 +19,7 @@ export default {
           :icon="Delete"
           type="danger"
           @click="handleDelete"
-        >删除
+        >{{ $t('common.delete') }}
         </el-button>
       </el-form-item>
 
@@ -27,16 +27,16 @@ export default {
         <el-input
           v-model="state.queryParams.keywords"
           clearable
-          placeholder="字典名称"
+          :placeholder="$t('system.dict.dictName')"
           @keyup.enter="handleQuery"
         />
       </el-form-item>
       <el-form-item>
         <el-button :icon="Search" type="primary" @click="handleQuery()"
-        >搜索
+        >{{ $t('common.search') }}
         </el-button
         >
-        <el-button :icon="Refresh" @click="resetQuery()">重置</el-button>
+        <el-button :icon="Refresh" @click="resetQuery()">{{ $t('common.reset') }}</el-button>
       </el-form-item>
     </el-form>
 
@@ -50,16 +50,16 @@ export default {
       @selection-change="handleSelectionChange"
     >
       <el-table-column align="center" type="selection" width="55"/>
-      <el-table-column label="字典名称" prop="name"/>
-      <el-table-column label="字典编码" prop="code"/>
-      <el-table-column align="center" label="状态" width="100">
+      <el-table-column :label="$t('system.dict.dictName')" prop="name"/>
+      <el-table-column :label="$t('system.dict.dictCode')" prop="code"/>
+      <el-table-column align="center" :label="$t('common.status')" width="100">
         <template #default="scope">
-          <el-tag v-if="scope.row.status === 1" type="success">启用</el-tag>
-          <el-tag v-else type="info">禁用</el-tag>
+          <el-tag v-if="scope.row.status === 1" type="success">{{ $t('common.enabled') }}</el-tag>
+          <el-tag v-else type="info">{{ $t('common.disabled') }}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作" width="150">
+      <el-table-column align="center" :label="$t('common.operation')" width="150">
         <template #default="scope">
           <el-button
             v-hasPerm="['sys:dict:type:update']"
@@ -102,31 +102,31 @@ export default {
         :rules="rules"
         label-width="80px"
       >
-        <el-form-item label="字典名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入字典名称"/>
+        <el-form-item :label="$t('system.dict.dictName')" prop="name">
+          <el-input v-model="formData.name" :placeholder="$t('system.dict.dictNamePlaceholder')"/>
         </el-form-item>
-        <el-form-item label="字典编码" prop="code">
-          <el-input v-model="formData.code" placeholder="请输入字典编码"/>
+        <el-form-item :label="$t('system.dict.dictCode')" prop="code">
+          <el-input v-model="formData.code" :placeholder="$t('system.dict.dictCodePlaceholder')"/>
         </el-form-item>
-        <el-form-item label="状态" prop="status">
+        <el-form-item :label="$t('common.status')" prop="status">
           <el-radio-group v-model="formData.status">
-            <el-radio :label="1">正常</el-radio>
-            <el-radio :label="0">停用</el-radio>
+            <el-radio :label="1">{{ $t('common.normal') }}</el-radio>
+            <el-radio :label="0">{{ $t('common.stop') }}</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item label="备注" prop="remark">
+        <el-form-item :label="$t('system.dict.remark')" prop="remark">
           <el-input
             v-model="formData.remark"
             :autosize="{ minRows: 2, maxRows: 4 }"
-            placeholder="请输入内容"
+            :placeholder="$t('system.dict.remarkPlaceholder')"
             type="textarea"
           />
         </el-form-item>
       </el-form>
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm">确 定</el-button>
-          <el-button @click="cancel">取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('common.confirm') }}</el-button>
+          <el-button @click="cancel">{{ $t('common.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>
@@ -135,6 +135,7 @@ export default {
 
 <script lang="ts" setup>
 import {onMounted, reactive, ref, toRefs} from 'vue';
+import {useI18n} from 'vue-i18n';
 import {
   listDictTypePages,
   getDictTypeForm,
@@ -143,13 +144,15 @@ import {
   deleteDictTypes,
 } from '@/api/system/dict';
 import {Search, Plus, Edit, Refresh, Delete} from '@element-plus/icons-vue';
-import {ElForm, ElMessage, ElMessageBox} from 'element-plus';
+import {ElForm} from 'element-plus';
 import {Dict, DictQuery, DictTypeForm} from '@/api/system/dict/types';
 
 const queryFormRef = ref(ElForm);
 const dataFormRef = ref(ElForm);
 
 const emit = defineEmits(['dictClick']);
+
+const {t} = useI18n();
 
 const state = reactive({
   loading: true,
@@ -170,8 +173,8 @@ const state = reactive({
     status: 1,
   } as DictTypeForm,
   rules: {
-    name: [{required: true, message: '请输入字典名称', trigger: 'blur'}],
-    code: [{required: true, message: '请输入字典编码', trigger: 'blur'}],
+    name: [{required: true, message: t('system.dict.dictNameRequired'), trigger: 'blur'}],
+    code: [{required: true, message: t('system.dict.dictCodeRequired'), trigger: 'blur'}],
   },
 });
 
@@ -196,8 +199,8 @@ function resetQuery() {
   handleQuery();
 }
 
-function handleSelectionChange(selection: any) {
-  state.ids = selection.map((item: any) => item.id);
+function handleSelectionChange(selection: Dict[]) {
+  state.ids = selection.map((item: Dict) => item.id);
   state.single = selection.length !== 1;
   state.multiple = !selection.length;
 }
@@ -212,14 +215,14 @@ function handleAdd() {
     remark: '',
   };
   state.dialog = {
-    title: '添加字典',
+    title: t('system.dict.addDict'),
     visible: true,
   };
 }
 
-function handleUpdate(row: any) {
+function handleUpdate(row: Dict) {
   state.dialog = {
-    title: '修改字典',
+    title: t('system.dict.updateDict'),
     visible: true,
   };
   const id = row.id;
@@ -234,7 +237,7 @@ function submitForm() {
       if (state.formData.id) {
         updateDictType(state.formData.id, state.formData)
           .then(() => {
-            ElMessage.success('修改成功');
+            ElMessage.success(t('common.updateSuccess'));
             cancel();
             handleQuery();
           })
@@ -242,7 +245,7 @@ function submitForm() {
       } else {
         addDictType(state.formData)
           .then(() => {
-            ElMessage.success('新增成功');
+            ElMessage.success(t('common.addSuccess'));
             cancel();
             handleQuery();
           })
@@ -258,25 +261,25 @@ function cancel() {
   state.dialog.visible = false;
 }
 
-function handleDelete(row: any) {
+function handleDelete(row: Dict) {
   const ids = [row.id || state.ids].join(',');
-  ElMessageBox.confirm('确认删除已选中的数据项?', '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(t('common.confirmDelete'), t('common.warning'), {
+    confirmButtonText: t('common.confirm'),
+    cancelButtonText: t('common.cancel'),
     type: 'warning',
   })
     .then(() => {
       deleteDictTypes(ids)
         .then(() => {
-          ElMessage.success('删除成功');
+          ElMessage.success(t('common.deleteSuccess'));
           handleQuery();
         })
         .catch(() => {});
     })
-    .catch(() => ElMessage.info('已取消删除'));
+    .catch(() => ElMessage.info(t('common.cancelledDelete')));
 }
 
-function handleRowClick(row: any) {
+function handleRowClick(row: Dict) {
   emit('dictClick', row);
 }
 

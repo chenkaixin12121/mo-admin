@@ -17,11 +17,13 @@
 
 <script lang="ts" setup>
 import {computed} from 'vue';
+import {useI18n} from 'vue-i18n';
 import {Plus} from '@element-plus/icons-vue';
-import {ElMessage, ElUpload, UploadRawFile, UploadRequestOptions,} from 'element-plus';
+import {UploadRawFile, UploadRequestOptions} from 'element-plus';
 import {uploadFileApi} from '@/api/file';
 
 const emit = defineEmits(['update:modelValue']);
+const {t} = useI18n();
 
 const props = defineProps({
   modelValue: {
@@ -55,7 +57,7 @@ async function uploadFile(options: UploadRequestOptions): Promise<any> {
  */
 function handleBeforeUpload(file: UploadRawFile) {
   if (file.size > 2 * 1024 * 1024) {
-    ElMessage.warning('上传图片不能大于2M');
+    ElMessage.warning(t('common.imageTooLarge'));
     return false;
   }
   return true;

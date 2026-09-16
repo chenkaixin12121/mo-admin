@@ -4,7 +4,6 @@ import router from '@/router';
 
 import {createPinia} from 'pinia';
 
-import ElementPlus from 'element-plus';
 import 'element-plus/theme-chalk/index.css';
 // Element Plus 暗色主题 CSS 变量
 import 'element-plus/theme-chalk/dark/css-vars.css';
@@ -12,8 +11,6 @@ import Pagination from '@/components/Pagination/index.vue';
 import '@/permission';
 // 根据字典编码获取字典列表全局方法
 import {listDictItemsByTypeCode} from '@/api/system/dict';
-
-import 'default-passive-events';
 
 // 引入svg注册脚本
 import 'virtual:svg-icons-register';
@@ -35,11 +32,10 @@ Object.keys(directive).forEach((key) => {
 // 全局方法
 app.config.globalProperties.$listDictItemsByTypeCode = listDictItemsByTypeCode;
 
-// 注册全局组件
+// 注册全局组件（Element Plus 组件已由 unplugin 按需自动注册）
 app
   .component('Pagination', Pagination)
   .use(createPinia())
   .use(router)
-  .use(ElementPlus)
   .use(i18n)
   .mount('#app');

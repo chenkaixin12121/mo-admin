@@ -20,22 +20,17 @@
 import {computed} from 'vue';
 import useStore from '@/store';
 import {useI18n} from 'vue-i18n';
-import {ElMessage} from 'element-plus';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 
 const {app} = useStore();
 const language = computed(() => app.language);
 
-const {locale} = useI18n();
+const {locale, t} = useI18n();
 
 function handleSetLanguage(lang: string) {
   locale.value = lang;
   app.setLanguage(lang);
-  if (lang == 'en') {
-    ElMessage.success('Switch Language Successful!');
-  } else {
-    ElMessage.success('切换语言成功！');
-  }
+  ElMessage.success(t('common.switchLanguageSuccess'));
 }
 </script>
 

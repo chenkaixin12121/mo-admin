@@ -1,7 +1,7 @@
-import axios, {AxiosResponse} from 'axios';
-import {ElMessage, ElMessageBox} from 'element-plus';
+import axios, {AxiosError, AxiosResponse} from 'axios';
 import {localStorage} from '@/utils/storage';
 import useStore from '@/store';
+import i18n from '@/lang';
 
 // 创建 axios 实例
 const service = axios.create({
@@ -23,7 +23,7 @@ service.interceptors.request.use(
     }
     return config;
   },
-  (error: any) => {
+  (error: AxiosError) => {
     return Promise.reject(error);
   }
 );
@@ -45,31 +45,37 @@ service.interceptors.response.use(
     }
 
     if (code === 'A003') {
-      ElMessageBox.confirm('当前页面已失效，请重新登录', 'Warning', {
-        confirmButtonText: 'OK',
-        type: 'warning',
-      }).then(() => {
+      ElMessageBox.confirm(
+        i18n.global.t('common.sessionExpired'),
+        i18n.global.t('common.warning'),
+        {
+          confirmButtonText: i18n.global.t('common.confirm'),
+          type: 'warning',
+        }
+      ).then(() => {
         localStorage.clear();
         window.location.href = '/';
       });
     }
 
     ElMessage({
-      message: msg || '系统出错',
+      message: msg || i18n.global.t('common.systemError'),
       type: 'error',
     });
-    return Promise.reject(new Error(msg || 'Error'));
+    return Promise.reject(
+      new Error(msg || i18n.global.t('common.systemError'))
+    );
   },
-  (error: any) => {
+  (error: AxiosError) => {
     if (error.response?.data) {
-      const {msg} = error.response.data;
+      const {msg} = error.response.data as {msg?: string};
       ElMessage({
-        message: msg || '系统出错',
+        message: msg || i18n.global.t('common.systemError'),
         type: 'error',
       });
     } else {
       ElMessage({
-        message: error.message || '网络异常，请稍后重试',
+        message: error.message || i18n.global.t('common.networkError'),
         type: 'error',
       });
     }

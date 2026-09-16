@@ -3,7 +3,7 @@
     <el-input
       v-model="iconName"
       clearable
-      placeholder="请输入图标名称"
+      :placeholder="$t('common.iconPlaceholder')"
       @clear="filterIcons"
       @input="filterIcons"
     >

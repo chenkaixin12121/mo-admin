@@ -6,9 +6,12 @@ export default {
 </script>
 
 <script lang="ts" setup>
+import {useI18n} from 'vue-i18n';
+
+const {t} = useI18n();
 
 function message() {
-  return '您访问的页面不存在或已被移除...';
+  return t('error.notFound');
 }
 </script>
 
@@ -26,9 +29,9 @@ function message() {
         <div class="bullshit__oops">OOPS!</div>
         <div class="bullshit__headline">{{ message }}</div>
         <div class="bullshit__info">
-          请检查您输入的网址是否正确，或点击下方按钮返回首页。
+          {{ $t('error.notFoundInfo') }}
         </div>
-        <router-link class="bullshit__return-home" to="/">返回首页</router-link>
+        <router-link class="bullshit__return-home" to="/">{{ $t('error.backHome') }}</router-link>
       </div>
     </div>
   </div>

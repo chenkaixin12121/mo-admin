@@ -20,7 +20,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
             <svg-icon class-name="card-panel-icon" icon-class="uv"/>
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">访问数</div>
+            <div class="card-panel-text">{{ $t('dashboard.visits') }}</div>
             <div class="card-panel-num">1000</div>
           </div>
         </div>
@@ -32,7 +32,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
             <svg-icon class-name="card-panel-icon" icon-class="message"/>
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">消息数</div>
+            <div class="card-panel-text">{{ $t('dashboard.messages') }}</div>
             <div class="card-panel-num">1000</div>
           </div>
         </div>
@@ -44,7 +44,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
             <svg-icon class-name="card-panel-icon" icon-class="money"/>
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">收入金额</div>
+            <div class="card-panel-text">{{ $t('dashboard.revenue') }}</div>
             <div class="card-panel-num">1000</div>
           </div>
         </div>
@@ -55,7 +55,7 @@ import RadarChart from './components/Chart/RadarChart.vue';
             <svg-icon class-name="card-panel-icon" icon-class="shopping"/>
           </div>
           <div class="card-panel-description">
-            <div class="card-panel-text">订单数</div>
+            <div class="card-panel-text">{{ $t('dashboard.orders') }}</div>
             <div class="card-panel-num">1000</div>
           </div>
         </div>

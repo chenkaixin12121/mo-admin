@@ -28,16 +28,16 @@ function back() {
 <template>
   <div class="errPage-container">
     <el-button class="pan-back-btn" :icon="ArrowLeft" @click="back">
-      返回
+      {{ $t('error.back') }}
     </el-button>
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">Oops!</h1>
-        <h2>你没有权限访问该页面</h2>
-        <h6>如有疑问请联系系统管理员</h6>
+        <h2>{{ $t('error.unauthorized') }}</h2>
+        <h6>{{ $t('error.unauthorizedTip') }}</h6>
         <ul class="list-unstyled">
           <li class="link-type">
-            <router-link to="/dashboard">回首页</router-link>
+            <router-link to="/dashboard">{{ $t('error.goHome') }}</router-link>
           </li>
         </ul>
       </el-col>

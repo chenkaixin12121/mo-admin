@@ -6,7 +6,6 @@
 
 <script lang="ts" setup>
 import {computed, ref, watch} from 'vue';
-import {ElConfigProvider} from 'element-plus';
 
 import useStore from '@/store';
 
@@ -17,7 +16,7 @@ import en from 'element-plus/es/locale/lang/en';
 const {app, setting} = useStore();
 
 const language = computed(() => app.language);
-const size: any = computed(() => app.size);
+const size = computed(() => app.size);
 
 const locale = ref();
 watch(

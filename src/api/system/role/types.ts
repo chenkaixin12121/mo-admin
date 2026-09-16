@@ -9,7 +9,7 @@ export interface RoleQuery extends PageQuery {
  * 角色分页列表项
  */
 export interface Role {
-  id: string;
+  id: number;
   name: string;
   code: string;
   sort: number;

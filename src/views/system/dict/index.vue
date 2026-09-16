@@ -4,6 +4,7 @@ import DictType from './components/DictType.vue';
 import DictItem from './components/DictItem.vue';
 
 import {reactive, toRefs} from 'vue';
+import type {Dict} from '@/api/system/dict/types';
 
 const state = reactive({
   typeCode: '',
@@ -12,7 +13,7 @@ const state = reactive({
 
 const {typeCode, typeName} = toRefs(state);
 
-const handleDictTypeClick = (row: any) => {
+const handleDictTypeClick = (row: Dict) => {
   if (row) {
     state.typeName = row.name;
     state.typeCode = row.code;
@@ -30,7 +31,7 @@ const handleDictTypeClick = (row: any) => {
         <el-card class="box-card">
           <template #header>
             <svg-icon icon-class="dict"/>
-            字典类型
+            {{ $t('system.dict.dictType') }}
           </template>
           <dict-type @dictClick="handleDictTypeClick"/>
         </el-card>
@@ -40,12 +41,12 @@ const handleDictTypeClick = (row: any) => {
         <el-card class="box-card">
           <template #header>
             <svg-icon icon-class="dict_item"/>
-            <span style="margin: 0 5px">字典数据项</span>
+            <span style="margin: 0 5px">{{ $t('system.dict.dictData') }}</span>
             <el-tag v-if="typeCode" size="small" type="success">{{
                 typeName
               }}
             </el-tag>
-            <el-tag v-else size="small" type="danger">未选择字典类型</el-tag>
+            <el-tag v-else size="small" type="danger">{{ $t('system.dict.noDictTypeSelected') }}</el-tag>
           </template>
           <!-- 字典项组件 -->
           <dict-item :typeCode="typeCode" :typeName="typeName"/>

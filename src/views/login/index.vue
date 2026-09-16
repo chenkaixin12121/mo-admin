@@ -31,7 +31,7 @@
 
         <el-tooltip
           :disabled="capslockTooltipDisabled"
-          content="大写锁定已开启"
+          :content="$t('login.capsLock')"
           placement="right"
         >
           <el-form-item prop="password">
@@ -104,6 +104,7 @@
 
 <script lang="ts" setup>
 import {nextTick, onMounted, reactive, ref, toRefs, watch} from 'vue';
+import {useI18n} from 'vue-i18n';
 
 // 组件依赖
 import {ElForm, ElInput} from 'element-plus';
@@ -120,6 +121,7 @@ import {LoginForm} from '@/api/auth/types';
 
 const {user} = useStore();
 const route = useRoute();
+const {t} = useI18n();
 
 const loginFormRef = ref(ElForm);
 const passwordRef = ref(ElInput);
@@ -132,16 +134,16 @@ const state = reactive({
     verifyCode: '',
   } as LoginForm,
   loginRules: {
-    username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
+    username: [{required: true, message: t('login.usernameRequired'), trigger: 'blur'}],
     password: [
       {
         required: true,
-        message: '请输入密码',
+        message: t('login.passwordRequired'),
         trigger: 'blur',
         validator: validatePassword,
       },
     ],
-    verifyCode: [{required: true, message: '请输入验证码', trigger: 'blur'}],
+    verifyCode: [{required: true, message: t('login.verifyCodeRequired'), trigger: 'blur'}],
   },
   loading: false,
   passwordType: 'password',
@@ -153,9 +155,9 @@ const state = reactive({
   showCopyright: true,
 });
 
-function validatePassword(rule: any, value: any, callback: any) {
+function validatePassword(rule: unknown, value: string, callback: (error?: Error) => void) {
   if (!value || value.length < 6) {
-    callback(new Error('密码长度不能少于 6 位'));
+    callback(new Error(t('login.passwordMin')));
   } else {
     callback();
   }
@@ -171,7 +173,7 @@ const {
   showCopyright,
 } = toRefs(state);
 
-function checkCapslock(e: any) {
+function checkCapslock(e: KeyboardEvent) {
   state.capslockTooltipDisabled = !e.getModifierState('CapsLock');
 }
 
@@ -235,8 +237,8 @@ watch(
   }
 );
 
-function getOtherQuery(query: any) {
-  return Object.keys(query).reduce((acc: any, cur: any) => {
+function getOtherQuery(query: Record<string, unknown>) {
+  return Object.keys(query).reduce((acc: Record<string, unknown>, cur: string) => {
     if (cur !== 'redirect') {
       acc[cur] = query[cur];
     }

@@ -49,7 +49,6 @@
 <script lang="ts" setup>
 import {computed} from 'vue';
 import {useRoute, useRouter} from 'vue-router';
-import {ElMessageBox} from 'element-plus';
 import {useI18n} from 'vue-i18n';
 
 import useStore from '@/store';

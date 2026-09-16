@@ -37,7 +37,7 @@ export function listRoleOptions(
  *
  * @param queryParams
  */
-export function getRoleMenuIds(roleId: string): AxiosPromise<number[]> {
+export function getRoleMenuIds(roleId: number): AxiosPromise<number[]> {
   return request({
     url: '/mo-admin/api/v1/roles/' + roleId + '/menuIds',
     method: 'get',
@@ -50,7 +50,7 @@ export function getRoleMenuIds(roleId: string): AxiosPromise<number[]> {
  * @param queryParams
  */
 export function updateRoleMenus(
-  roleId: string,
+  roleId: number,
   data: number[]
 ): AxiosPromise<any> {
   return request({

@@ -26,7 +26,7 @@ const useAppStore = defineStore({
         localStorage.set('sidebarStatus', 0);
       }
     },
-    closeSideBar(withoutAnimation: any) {
+    closeSideBar(withoutAnimation: boolean) {
       localStorage.set('sidebarStatus', 0);
       this.sidebar.opened = false;
       this.sidebar.withoutAnimation = withoutAnimation;

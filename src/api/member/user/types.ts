@@ -9,7 +9,7 @@ export interface MemberQuery extends PageQuery {
  * 会员分页列表项声明
  */
 export interface Member {
-  id: string;
+  id: number;
   gender: number;
   nickName: string;
   mobile: string;

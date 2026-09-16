@@ -61,14 +61,15 @@ function addEventClick() {
   window.addEventListener('click', closeSidebar);
 }
 
-function closeSidebar(evt: any) {
+function closeSidebar(evt: MouseEvent) {
   // 主题选择点击不关闭
-  let parent = evt.target.closest('.theme-picker-dropdown');
+  const target = evt.target as HTMLElement;
+  let parent = target.closest('.theme-picker-dropdown');
   if (parent) {
     return;
   }
 
-  parent = evt.target.closest('.rightPanel');
+  parent = target.closest('.rightPanel');
   if (!parent) {
     show.value = false;
     window.removeEventListener('click', closeSidebar);

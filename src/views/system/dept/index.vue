@@ -6,6 +6,7 @@ export default {
 
 <script lang="ts" setup>
 import {onMounted, reactive, ref, toRefs} from 'vue';
+import {useI18n} from 'vue-i18n';
 
 import {
   getDeptForm,
@@ -17,16 +18,18 @@ import {
 } from '@/api/system/dept';
 
 import {Search, Plus, Refresh, Delete} from '@element-plus/icons-vue';
-import {ElForm, ElMessage, ElMessageBox} from 'element-plus';
+import {ElForm} from 'element-plus';
 import {Dept, DeptForm, DeptQuery} from '@/api/system/dept/types';
 
 const queryFormRef = ref(ElForm);
 const dataFormRef = ref(ElForm);
 
+const {t} = useI18n();
+
 const state = reactive({
   loading: false,
   // 选中ID数组
-  ids: [] as number[],
+  ids: [] as string[],
   // 表格树数据
   dataList: [] as Dept[],
   deptOptions: [] as OptionType[],
@@ -38,10 +41,10 @@ const state = reactive({
   } as DeptForm,
   rules: {
     parentId: [
-      {required: true, message: '上级部门不能为空', trigger: 'blur'},
+      {required: true, message: t('system.dept.parentRequired'), trigger: 'blur'},
     ],
-    name: [{required: true, message: '部门名称不能为空', trigger: 'blur'}],
-    sort: [{required: true, message: '显示排序不能为空', trigger: 'blur'}],
+    name: [{required: true, message: t('system.dept.nameRequired'), trigger: 'blur'}],
+    sort: [{required: true, message: t('system.dept.sortRequired'), trigger: 'blur'}],
   },
 });
 
@@ -78,8 +81,8 @@ function resetQuery() {
   handleQuery();
 }
 
-function handleSelectionChange(selection: any) {
-  state.ids = selection.map((item: any) => item.id);
+function handleSelectionChange(selection: Dept[]) {
+  state.ids = selection.map((item: Dept) => item.id);
 }
 
 /**
@@ -90,7 +93,7 @@ async function getDeptOptions() {
   listDeptOptions().then((response) => {
     const rootDeptOption = {
       value: '0',
-      label: '顶级部门',
+      label: t('system.dept.topDept'),
       children: response.data,
     };
     deptOptions.push(rootDeptOption);
@@ -101,7 +104,7 @@ async function getDeptOptions() {
 /**
  * 添加
  */
-function handleAdd(row: any) {
+function handleAdd(row: Dept) {
   getDeptOptions();
   // 重置表单，避免残留上次编辑的数据；工具栏新增时 row 为事件对象，按顶级部门处理
   formData.value = {
@@ -112,7 +115,7 @@ function handleAdd(row: any) {
     status: 1,
   };
   dialog.value = {
-    title: '添加部门',
+    title: t('system.dept.addDept'),
     visible: true,
   };
 }
@@ -120,11 +123,11 @@ function handleAdd(row: any) {
 /**
  * 修改
  */
-async function handleUpdate(row: any) {
+async function handleUpdate(row: Dept) {
   await getDeptOptions();
   const deptId = row.id;
   state.dialog = {
-    title: '修改部门',
+    title: t('system.dept.updateDept'),
     visible: true,
   };
   getDeptForm(deptId).then((response: any) => {
@@ -136,12 +139,12 @@ async function handleUpdate(row: any) {
  * 提交
  */
 function submitForm() {
-  dataFormRef.value.validate((valid: any) => {
+  dataFormRef.value.validate((valid: boolean) => {
     if (valid) {
       if (state.formData.id) {
         updateDept(state.formData.id, state.formData)
           .then(() => {
-            ElMessage.success('修改成功');
+            ElMessage.success(t('common.updateSuccess'));
             closeDialog();
             handleQuery();
           })
@@ -149,7 +152,7 @@ function submitForm() {
       } else {
         addDept(state.formData)
           .then(() => {
-            ElMessage.success('新增成功');
+            ElMessage.success(t('common.addSuccess'));
             closeDialog();
             handleQuery();
           })
@@ -162,27 +165,27 @@ function submitForm() {
 /**
  * 删除
  */
-function handleDelete(row: any) {
+function handleDelete(row: Dept) {
   const ids = [row.id || state.ids].join(',');
   if (!ids) {
-    ElMessage.warning('请勾选删除项');
+    ElMessage.warning(t('common.noSelection'));
     return;
   }
 
-  ElMessageBox.confirm(`确认删除已选中的数据项?`, '警告', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  ElMessageBox.confirm(t('common.confirmDelete'), t('common.warning'), {
+    confirmButtonText: t('common.confirm'),
+    cancelButtonText: t('common.cancel'),
     type: 'warning',
   })
     .then(() => {
       deleteDept(ids)
         .then(() => {
           handleQuery();
-          ElMessage.success('删除成功');
+          ElMessage.success(t('common.deleteSuccess'));
         })
         .catch(() => {});
     })
-    .catch(() => ElMessage.info('已取消删除'));
+    .catch(() => ElMessage.info(t('common.cancelledDelete')));
 }
 
 /**
@@ -202,22 +205,22 @@ onMounted(() => {
   <div class="app-container">
     <div class="search">
       <el-form ref="queryFormRef" :inline="true" :model="queryParams">
-        <el-form-item label="关键字" prop="keywords">
+        <el-form-item :label="$t('common.keyword')" prop="keywords">
           <el-input
             v-model="queryParams.keywords"
-            placeholder="部门名称"
+            :placeholder="$t('system.dept.deptName')"
             @keyup.enter="handleQuery"
           />
         </el-form-item>
 
-        <el-form-item label="部门状态" prop="status">
+        <el-form-item :label="$t('system.dept.deptStatus')" prop="status">
           <el-select
             v-model="queryParams.status"
             clearable
-            placeholder="部门状态"
+            :placeholder="$t('system.dept.deptStatus')"
           >
-            <el-option :value="1" label="正常"/>
-            <el-option :value="0" label="禁用"/>
+            <el-option :value="1" :label="$t('common.normal')"/>
+            <el-option :value="0" :label="$t('common.disabled')"/>
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -227,9 +230,9 @@ onMounted(() => {
             type="primary"
             @click="handleQuery"
           >
-            搜索
+            {{ $t('common.search') }}
           </el-button>
-          <el-button :icon="Refresh" @click="resetQuery"> 重置</el-button>
+          <el-button :icon="Refresh" @click="resetQuery">{{ $t('common.reset') }}</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -238,7 +241,7 @@ onMounted(() => {
       <!--toolbar-->
       <template #header>
         <el-button v-hasPerm="['sys:dept:save']" :icon="Plus" type="success" @click="handleAdd"
-        >新增
+        >{{ $t('common.add') }}
         </el-button
         >
         <el-button
@@ -247,7 +250,7 @@ onMounted(() => {
           :icon="Delete"
           type="danger"
           @click="handleDelete"
-        >删除
+        >{{ $t('common.delete') }}
         </el-button>
       </template>
 
@@ -261,23 +264,23 @@ onMounted(() => {
         @selection-change="handleSelectionChange"
       >
         <el-table-column align="center" type="selection" width="55"/>
-        <el-table-column label="部门名称" min-width="300" prop="name"/>
-        <el-table-column label="状态" prop="status" width="200">
+        <el-table-column :label="$t('system.dept.deptName')" min-width="300" prop="name"/>
+        <el-table-column :label="$t('common.status')" prop="status" width="200">
           <template #default="scope">
-            <el-tag v-if="scope.row.status == 1" type="success">正常</el-tag>
-            <el-tag v-else type="info">禁用</el-tag>
+            <el-tag v-if="scope.row.status == 1" type="success">{{ $t('common.normal') }}</el-tag>
+            <el-tag v-else type="info">{{ $t('common.disabled') }}</el-tag>
           </template>
         </el-table-column>
 
-        <el-table-column label="排序" prop="sort" width="200"/>
+        <el-table-column :label="$t('common.sort')" prop="sort" width="200"/>
 
-        <el-table-column align="center" label="创建时间" prop="createTime" width="180"/>
-        <el-table-column align="center" label="修改时间" prop="updateTime" width="180"/>
+        <el-table-column align="center" :label="$t('common.createTime')" prop="createTime" width="180"/>
+        <el-table-column align="center" :label="$t('common.updateTime')" prop="updateTime" width="180"/>
 
-        <el-table-column align="center" label="操作" width="150">
+        <el-table-column align="center" :label="$t('common.operation')" width="150">
           <template #default="scope">
             <el-button v-hasPerm="['sys:dept:save']" link type="primary" @click.stop="handleAdd(scope.row)"
-            >新增
+            >{{ $t('common.add') }}
             </el-button>
             <el-button
               v-hasPerm="['sys:dept:update']"
@@ -285,11 +288,11 @@ onMounted(() => {
               type="success"
               @click.stop="handleUpdate(scope.row)"
             >
-              编辑
+              {{ $t('common.edit') }}
             </el-button>
 
             <el-button v-hasPerm="['sys:dept:delete']" link type="danger" @click.stop="handleDelete(scope.row)">
-              删除
+              {{ $t('common.delete') }}
             </el-button>
           </template>
         </el-table-column>
@@ -309,20 +312,20 @@ onMounted(() => {
         :rules="rules"
         label-width="80px"
       >
-        <el-form-item label="上级部门" prop="parentId">
+        <el-form-item :label="$t('system.dept.parentDept')" prop="parentId">
           <el-tree-select
             v-model="formData.parentId"
             :data="deptOptions"
             :render-after-expand="false"
             check-strictly
             filterable
-            placeholder="选择上级部门"
+            :placeholder="$t('system.dept.selectParentDept')"
           />
         </el-form-item>
-        <el-form-item label="部门名称" prop="name">
-          <el-input v-model="formData.name" placeholder="请输入部门名称"/>
+        <el-form-item :label="$t('system.dept.deptName')" prop="name">
+          <el-input v-model="formData.name" :placeholder="$t('system.dept.deptNamePlaceholder')"/>
         </el-form-item>
-        <el-form-item label="显示排序" prop="sort">
+        <el-form-item :label="$t('system.dept.displaySort')" prop="sort">
           <el-input-number
             v-model="formData.sort"
             :min="0"
@@ -330,18 +333,18 @@ onMounted(() => {
             style="width: 100px"
           />
         </el-form-item>
-        <el-form-item label="部门状态">
+        <el-form-item :label="$t('system.dept.deptStatus')">
           <el-radio-group v-model="formData.status">
-            <el-radio :label="1">正常</el-radio>
-            <el-radio :label="0">禁用</el-radio>
+            <el-radio :label="1">{{ $t('common.normal') }}</el-radio>
+            <el-radio :label="0">{{ $t('common.disabled') }}</el-radio>
           </el-radio-group>
         </el-form-item>
       </el-form>
 
       <template #footer>
         <div class="dialog-footer">
-          <el-button type="primary" @click="submitForm"> 确 定</el-button>
-          <el-button @click="closeDialog"> 取 消</el-button>
+          <el-button type="primary" @click="submitForm">{{ $t('common.confirm') }}</el-button>
+          <el-button @click="closeDialog">{{ $t('common.cancel') }}</el-button>
         </div>
       </template>
     </el-dialog>

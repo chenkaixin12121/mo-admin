@@ -10,6 +10,11 @@ module.exports = {
     defineExpose: 'readonly',
     DialogType: "readonly",
     OptionType: "readonly",
+    // Element Plus 按需导入的 API（由 unplugin-auto-import 自动注入）
+    ElMessage: 'readonly',
+    ElMessageBox: 'readonly',
+    ElNotification: 'readonly',
+    ElLoading: 'readonly',
   },
   parser: 'vue-eslint-parser',
   extends: [
