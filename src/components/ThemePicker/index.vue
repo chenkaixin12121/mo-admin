@@ -2,7 +2,7 @@
   <el-color-picker
     v-model="theme"
     :predefine="[
-      '#409EFF',
+      '#1677ff',
       '#1890ff',
       '#304156',
       '#212121',

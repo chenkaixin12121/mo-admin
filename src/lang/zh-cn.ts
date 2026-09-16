@@ -17,6 +17,23 @@ export default {
   },
   navbar: {
     dashboard: '首页',
-    logout: '注销',
+    logout: '退出登录',
+  },
+  // 系统布局配置
+  settings: {
+    title: '系统布局配置',
+    themeColor: '主题颜色',
+    tagsView: '开启 Tags-View',
+    fixedHeader: '固定 Header',
+    sidebarLogo: '侧边栏 Logo',
+    darkMode: '暗色模式',
+  },
+  // 组件尺寸
+  size: {
+    title: '布局大小',
+    default: '默认',
+    large: '大型',
+    small: '小型',
+    success: '切换布局大小成功',
   },
 };

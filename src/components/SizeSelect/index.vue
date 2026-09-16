@@ -19,29 +19,32 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref} from 'vue';
+import {computed} from 'vue';
 import {ElMessage} from 'element-plus';
+import {useI18n} from 'vue-i18n';
 
 import useStore from '@/store';
 import SvgIcon from '@/components/SvgIcon/index.vue';
 
 const {app} = useStore();
+const {t} = useI18n();
 const size = computed(() => app.size);
 
-const sizeOptions = ref([
-  {label: '默认', value: 'default'},
-  {label: '大型', value: 'large'},
-  {label: '小型', value: 'small'},
+const sizeOptions = computed(() => [
+  {label: t('size.default'), value: 'default'},
+  {label: t('size.large'), value: 'large'},
+  {label: t('size.small'), value: 'small'},
 ]);
 
 function handleSetSize(size: string) {
   app.setSize(size);
-  ElMessage.success('切换布局大小成功');
+  ElMessage.success(t('size.success'));
 }
 </script>
 
 <style lang="scss" scoped>
 .size-select__icon {
   line-height: 50px;
+  color: var(--el-text-color-regular);
 }
 </style>

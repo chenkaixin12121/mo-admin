@@ -1,31 +1,30 @@
 <template>
   <div class="drawer-container">
-    <h3 class="drawer-title">系统布局配置</h3>
+    <h3 class="drawer-title">{{ $t('settings.title') }}</h3>
+
     <div class="drawer-item">
-      <span>主题颜色</span>
-      <div style="float: right; height: 26px; margin: -3px 8px 0 0">
-        <theme-picker @change="themeChange"/>
-      </div>
+      <span>{{ $t('settings.themeColor') }}</span>
+      <theme-picker @change="themeChange"/>
     </div>
 
     <div class="drawer-item">
-      <span>开启 Tags-View</span>
-      <el-switch v-model="tagsView" class="drawer-switch"/>
+      <span>{{ $t('settings.tagsView') }}</span>
+      <el-switch v-model="tagsView"/>
     </div>
 
     <div class="drawer-item">
-      <span>固定 Header</span>
-      <el-switch v-model="fixedHeader" class="drawer-switch"/>
+      <span>{{ $t('settings.fixedHeader') }}</span>
+      <el-switch v-model="fixedHeader"/>
     </div>
 
     <div class="drawer-item">
-      <span>侧边栏 Logo</span>
-      <el-switch v-model="sidebarLogo" class="drawer-switch"/>
+      <span>{{ $t('settings.sidebarLogo') }}</span>
+      <el-switch v-model="sidebarLogo"/>
     </div>
 
     <div class="drawer-item">
-      <span>暗色模式</span>
-      <el-switch v-model="darkMode" class="drawer-switch"/>
+      <span>{{ $t('settings.darkMode') }}</span>
+      <el-switch v-model="darkMode"/>
     </div>
   </div>
 </template>
@@ -89,28 +88,25 @@ watch(
   word-wrap: break-word;
 
   .drawer-title {
-    margin-bottom: 12px;
-    color: rgba(0, 0, 0, 0.85);
-    font-size: 14px;
-    line-height: 22px;
+    margin: 0 0 8px;
+    color: var(--el-text-color-primary);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
   }
 
   .drawer-item {
-    color: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--el-text-color-regular);
     font-size: 14px;
-    padding: 12px 0;
-  }
+    padding: 14px 0;
+    border-bottom: 1px solid var(--el-border-color-lighter);
 
-  .drawer-switch {
-    float: right;
-  }
-
-  .job-link {
-    display: block;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: 0;
+    &:last-child {
+      border-bottom: none;
+    }
   }
 }
 </style>

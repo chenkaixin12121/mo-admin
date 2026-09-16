@@ -17,6 +17,23 @@ export default {
   // 导航栏国际化
   navbar: {
     dashboard: 'Dashboard',
-    logout: 'Logout',
+    logout: 'Sign Out',
+  },
+  // 系统布局配置
+  settings: {
+    title: 'Layout Settings',
+    themeColor: 'Theme Color',
+    tagsView: 'Enable Tags-View',
+    fixedHeader: 'Fixed Header',
+    sidebarLogo: 'Sidebar Logo',
+    darkMode: 'Dark Mode',
+  },
+  // 组件尺寸
+  size: {
+    title: 'Component Size',
+    default: 'Default',
+    large: 'Large',
+    small: 'Small',
+    success: 'Component size changed',
   },
 };
