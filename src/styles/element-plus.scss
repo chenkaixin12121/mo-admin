@@ -58,3 +58,20 @@
   display: table-cell !important;
 }
 
+// 卡片圆角统一，视觉更圆润
+.el-card {
+  border-radius: 8px;
+}
+
+// 表格表头：浅灰底 + 加粗，层级更清晰
+.el-table th.el-table__cell {
+  background-color: var(--el-fill-color-light) !important;
+  color: var(--el-text-color-primary);
+  font-weight: 600;
+}
+
+// 对话框圆角
+.el-dialog {
+  border-radius: 10px;
+}
+

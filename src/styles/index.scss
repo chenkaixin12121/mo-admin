@@ -67,11 +67,11 @@ div:focus {
 }
 
 .search {
-  padding: 18px 0 0 10px;
-  margin-bottom: 10px;
-  box-shadow: var(--el-box-shadow-light);
-  border-radius: var(--el-card-border-radius);
-  border: 1px solid var(--el-card-border-color);
+  padding: 18px 10px 0 10px;
+  margin-bottom: 16px;
+  background: var(--el-bg-color);
+  border-radius: 8px;
+  border: 1px solid var(--el-border-color-lighter);
 }
 
 // 全局细滚动条，替换浏览器默认的粗滚动条

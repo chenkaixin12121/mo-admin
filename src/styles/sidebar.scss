@@ -9,7 +9,7 @@
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
-    background-color: $menuBg;
+    background-color: var(--el-bg-color);
     border-right: 1px solid var(--el-border-color-light);
     height: 100%;
     position: fixed;
